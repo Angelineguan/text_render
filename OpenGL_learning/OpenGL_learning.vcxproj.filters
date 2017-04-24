@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="源文件\util">
+      <UniqueIdentifier>{8c714e45-9c65-48f2-86f3-43bb6b6cd2c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\geometry">
+      <UniqueIdentifier>{5485fe00-8866-4810-a5c3-1ddcae79f19a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\graphic">
+      <UniqueIdentifier>{92787c05-fc74-405c-a30f-bb8aaab5023b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\callback_collections.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\triangle.cpp">
+      <Filter>源文件\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vector3.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object.cpp">
+      <Filter>源文件\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rs_programe.cpp">
+      <Filter>源文件\graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framebuffer.cpp">
+      <Filter>源文件\graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_context.cpp">
+      <Filter>源文件\graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\texture.cpp">
+      <Filter>源文件\graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\texture_atlas.cpp">
+      <Filter>源文件\graphic</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\util.h">
+      <Filter>源文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vector3.h">
+      <Filter>源文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\triangle.h">
+      <Filter>源文件\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="src\object.h">
+      <Filter>源文件\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="src\rs_programe.h">
+      <Filter>源文件\graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framebuffer.h">
+      <Filter>源文件\graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphic_context.h">
+      <Filter>源文件\graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\callback_collections.h">
+      <Filter>源文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\texture.h">
+      <Filter>源文件\graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\texture_atlas.h">
+      <Filter>源文件\graphic</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
