@@ -143,3 +143,20 @@ typedef vec2  SizeF;
 typedef vec4 Color;
 typedef ivec4 RectI;
 typedef vec4 RectF;
+
+Color Color_make(float r, float g, float b, float a)
+{
+	Color color;
+	color.red = r;
+	color.green = g	;
+	color.blue = b;
+	color.alpha = a;
+	return color;
+}
+
+vec3 vec3_makeZero()
+{
+	vec3 vec;
+	vec.x = vec.y = vec.z = 0;
+	return vec;
+}

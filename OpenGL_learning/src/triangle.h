@@ -16,14 +16,14 @@ public:
 	}
 	void setInnerColor(Color color);
 	void setOutLineColor(Color color);
-	void setOffset(Vector3* offset);
+	void setOffset(vec3* offset);
 private:
 	GLuint m_vboHandle;
 	GLuint m_vaoHandle;
 	RsProgram* m_programe;
 	Color m_innerColor;
 	Color m_outLineColor;
-	Vector3 m_offset;
+	vec3 m_offset;
 	Vector3 m_scale;
 	bool m_isDrawOutline;
 };

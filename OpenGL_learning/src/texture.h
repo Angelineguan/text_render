@@ -29,7 +29,10 @@ public:
 	}
 
 	SizeI getTextureSize() {
-		return SizeI(m_width, m_height);
+		SizeI size;
+		size.x = m_width;
+		size.y = m_height;
+		return size;
 	}
 
 private:

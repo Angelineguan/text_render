@@ -40,10 +40,19 @@ public:
 	void clear();
 
 private:
+	typedef struct SkylineNode
+	{
+		int x;
+		int y; //y = x + height;
+		int z; // z = y + width -1;
+	}SkylineNode;
+
 	TextureAltas() {};
 	~TextureAltas();
 
-    vector<Object*> m_nodes;
+	int fit(int index, int width, int height);
+	void merge();
+    vector<SkylineNode> m_nodes;
 
     int m_width;
 

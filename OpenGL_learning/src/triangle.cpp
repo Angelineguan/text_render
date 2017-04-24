@@ -56,9 +56,9 @@ Triangle::Triangle( GLfloat* vertex, size_t num )
 	glEnableVertexAttribArray(vertxPosition);
 	glBindVertexArray(0);
 
-	m_innerColor.setColor(1.0, 0.0, 0.0, 1.0);
-	m_outLineColor.setColor(1.0 ,0.0 ,0.0 ,1.0);
-	m_offset.setZero();
+	m_innerColor = Color_make(1.0, 0.0, 0.0, 1.0);
+	m_outLineColor = Color_make(1.0, 0.0, 0.0, 1.0);
+	m_offset = vec3_makeZero();
 	m_isDrawOutline= false;
 }
 
@@ -94,7 +94,7 @@ void Triangle::draw()
 	red += 0.00005f;
 	green += 0.0005f;
 	blue += 0.0005f;
-	m_innerColor.setColor(sinf(red), cosf(green), sinf(blue),1.0f);
+	m_innerColor = Color_make(sinf(red), cosf(green), sinf(blue), 1.0f);
 
 	float color[4] = { m_innerColor.red,m_innerColor.blue,m_innerColor.green,m_innerColor.alpha};
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -113,8 +113,8 @@ void Triangle::setOutLineColor(Color color)
 	m_outLineColor = color;
 }
 
-void Triangle::setOffset(Vector3* offset)
+void Triangle::setOffset(vec3* offset)
 {
-	m_offset =* offset;
+	m_offset = *offset;
 }
 //////////////////////////////////////////////////////////////////////////

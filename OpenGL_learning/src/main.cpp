@@ -13,7 +13,8 @@ int main()
 	Object* triange = new Triangle(vertex, 18);
 	Object* triange1 = new Triangle(vertex1, 18);
 
-	Vector3 offset(0, 0, 0);
+	vec3 offset = vec3_makeZero();
+	 
 	triange->setOffset(&offset);
 	triange1->setOffset(&offset);
 	setGraphicCallbackCollections();
@@ -37,11 +38,10 @@ int main()
 		glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 		
-		Vector3 offset;
+		vec3 offset = vec3_makeZero();
 		Color innerColor;
-		innerColor.setColor(1.0, 0.0, 0.0, 1.0);
+		innerColor = Color_make(1.0, 0.0, 0.0, 1.0);
 		glfwPollEvents();  
-		offset.setZero();
 		triange1->setInnerColor(innerColor);
 		triange1->setOffset(&offset);
 		triange1->setIsDrawOutline(true);
@@ -50,7 +50,7 @@ int main()
 		offset.x = 0.3f;
 		offset.x = -0.3f;
 		offset.z = 0.0f;
-		innerColor.setColor(0.0, 1.0, 0.0, 1.0);
+		innerColor = Color_make(0.0, 1.0, 0.0, 1.0);
 
 		triange->setInnerColor(innerColor);
 		triange->setOffset(&offset);
