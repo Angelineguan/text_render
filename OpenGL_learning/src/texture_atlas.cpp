@@ -98,10 +98,10 @@ void TextureAltas::merge()
 RectI TextureAltas::getRegion(int width, int height)
 {
 	int y, best_index;
-	size_t best_height, best_width;
+	int best_height, best_width;
 	SkylineNode *node, *prev;
 	ivec4 region = { { 0, 0, width, height } };
-	int i;
+	unsigned int i;
 
 	best_height = UINT_MAX;
 	best_index = -1;
@@ -114,7 +114,7 @@ RectI TextureAltas::getRegion(int width, int height)
 		{
 			node = &m_nodes.at(i);
 			if (((y + height) < best_height) ||
-				(((y + height) == best_height) && (node->z > 0 && (size_t)node->z < best_width)))
+				(((y + height) == best_height) && (node->z > 0 && node->z < best_width)))
 			{
 				best_height = y + height;
 				best_index = i;
@@ -150,7 +150,9 @@ RectI TextureAltas::getRegion(int width, int height)
 	free(node);
 
 	iter = m_nodes.begin();
-	for (i = best_index + 1; i < m_nodes.size(); ++i)
+	iter = m_nodes.begin();
+	iter += best_index + 1;
+	for (i = best_index + 1; i < m_nodes.size() && iter != m_nodes.end(); ++i, iter++)
 	{
 		node = &m_nodes.at(i);
 		prev = &m_nodes.at(i - 1);
@@ -162,7 +164,7 @@ RectI TextureAltas::getRegion(int width, int height)
 			node->z -= shrink;
 			if (node->z <= 0)
 			{
-				//m_nodes.erase(i);
+				m_nodes.erase(iter);
 				--i;
 			}
 			else

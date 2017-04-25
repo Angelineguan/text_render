@@ -1,5 +1,4 @@
 #pragma  once 
-
 //////////////////////////////////////////////////////////////////////////
 typedef union
 {
@@ -10,24 +9,28 @@ typedef union
         int z;
         int w;
     };
+
 	struct {
         int x_;
         int y_;
         int width;
         int height;
     };
+
 	struct {
         int r;
         int g;
         int b;
         int a;
     };
+
 	struct {
         int red;
         int green;
         int blue;
         int alpha;
     };
+
 	struct {
         int vstart;
         int vcount;
@@ -45,16 +48,19 @@ typedef union
         int y;
         int z;
     };
+
 	struct {
         int r;
         int g;
         int b;
     };
+
 	struct {
         int red;
         int green;
         int blue;
     };
+
 } ivec3;
 
 typedef union
@@ -64,10 +70,12 @@ typedef union
         int x;
         int y;
     };
+
 	struct {
         int s;
         int t;
     };
+
 	struct {
         int start;
         int end;
@@ -84,18 +92,21 @@ typedef union
         float z;
         float w;
     };
+
 	struct {
         float left;
         float top;
         float width;
         float height;
     };
+
 	struct {
         float r;
         float g;
         float b;
         float a;
     };
+
 	struct {
         float red;
         float green;
@@ -112,11 +123,13 @@ typedef union
         float y;
         float z;
     };
+
 	struct {
         float r;
         float g;
         float b;
     };
+
 	struct {
         float red;
         float green;
@@ -131,6 +144,7 @@ typedef union
         float x;
         float y;
 	};
+
 	struct {
         float s;
 		float t;

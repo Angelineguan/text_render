@@ -24,6 +24,5 @@ private:
 	Color m_innerColor;
 	Color m_outLineColor;
 	vec3 m_offset;
-	Vector3 m_scale;
 	bool m_isDrawOutline;
 };

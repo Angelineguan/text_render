@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{37138002-72FF-4300-86EB-4DB174A239E1}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>soft_rendering</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\cube\cube.cpp" />
+    <ClCompile Include="src\face\face.cpp" />
+    <ClCompile Include="src\frame.cpp" />
+    <ClCompile Include="src\graphicLib\graphicLib.cpp" />
+    <ClCompile Include="src\graphicLib\sampler.cpp" />
+    <ClCompile Include="src\key\key.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Maths\COLOR.cpp" />
+    <ClCompile Include="src\Maths\MATRIX4X4.cpp" />
+    <ClCompile Include="src\Maths\PLANE.cpp" />
+    <ClCompile Include="src\Maths\VECTOR2D.cpp" />
+    <ClCompile Include="src\Maths\VECTOR3D.cpp" />
+    <ClCompile Include="src\Maths\VECTOR4D.cpp" />
+    <ClCompile Include="src\objects.cpp" />
+    <ClCompile Include="src\shader\shader.cpp" />
+    <ClCompile Include="src\shadow\shadow.cpp" />
+    <ClCompile Include="src\sight\sight.cpp" />
+    <ClCompile Include="src\sphere\sphere.cpp" />
+    <ClCompile Include="src\square\square.cpp" />
+    <ClCompile Include="src\texture\BmpLoader.cpp" />
+    <ClCompile Include="src\texture\texture.cpp" />
+    <ClCompile Include="src\util\util.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\cube\cube.h" />
+    <ClInclude Include="src\face\face.h" />
+    <ClInclude Include="src\frame.h" />
+    <ClInclude Include="src\graphicLib\graphicLib.h" />
+    <ClInclude Include="src\graphicLib\sampler.h" />
+    <ClInclude Include="src\header\constants.h" />
+    <ClInclude Include="src\header\datatype.h" />
+    <ClInclude Include="src\header\header.h" />
+    <ClInclude Include="src\key\key.h" />
+    <ClInclude Include="src\Maths\COLOR.h" />
+    <ClInclude Include="src\Maths\Maths.h" />
+    <ClInclude Include="src\Maths\MATRIX4X4.h" />
+    <ClInclude Include="src\Maths\PLANE.h" />
+    <ClInclude Include="src\Maths\VECTOR2D.h" />
+    <ClInclude Include="src\Maths\VECTOR3D.h" />
+    <ClInclude Include="src\Maths\VECTOR4D.h" />
+    <ClInclude Include="src\objects.h" />
+    <ClInclude Include="src\shader\shader.h" />
+    <ClInclude Include="src\shadow\shadow.h" />
+    <ClInclude Include="src\sight\sight.h" />
+    <ClInclude Include="src\sphere\sphere.h" />
+    <ClInclude Include="src\square\square.h" />
+    <ClInclude Include="src\texture\BmpLoader.h" />
+    <ClInclude Include="src\texture\texture.h" />
+    <ClInclude Include="src\util\util.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

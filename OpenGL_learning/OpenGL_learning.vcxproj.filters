@@ -36,9 +36,6 @@
     <ClCompile Include="src\stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\vector3.cpp">
-      <Filter>源文件\util</Filter>
-    </ClCompile>
     <ClCompile Include="src\object.cpp">
       <Filter>源文件\geometry</Filter>
     </ClCompile>
@@ -63,9 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\util.h">
-      <Filter>源文件\util</Filter>
-    </ClInclude>
-    <ClInclude Include="src\vector3.h">
       <Filter>源文件\util</Filter>
     </ClInclude>
     <ClInclude Include="src\stdafx.h">
