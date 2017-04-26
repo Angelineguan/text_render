@@ -438,7 +438,6 @@ void drawFaces(FrameBuffer* fb,DepthBuffer* db,VertexShader vs,FragmentShader fs
 	}
 }
 
-
 int checkFace(Face* face) {
 	bool failA=false,failB=false,failC=false;
 	int nFail=0;

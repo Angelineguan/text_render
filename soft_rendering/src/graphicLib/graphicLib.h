@@ -20,15 +20,20 @@ extern unsigned char* screenBits;
 
 void initFrameBuffer(FrameBuffer** pfb,int width,int height);
 void releaseFrameBuffer(FrameBuffer** pfb);
+
 void initDepthBuffer(DepthBuffer** pdb,int width,int height);
 void releaseDepthBuffer(DepthBuffer** pdb);
+
 void initDevice(FrameBuffer** pfb,DepthBuffer** pdb,int width,int height);
 void releaseDevice(FrameBuffer** pfb,DepthBuffer** pdb);
+
 void initDevice2Buf(FrameBuffer** pfb1,FrameBuffer** pfb2,DepthBuffer** pdb,int width,int height);
 void releaseDevice2Buf(FrameBuffer** pfb1,FrameBuffer** pfb2,DepthBuffer** pdb);
+
 void clearScreen(FrameBuffer* fb,unsigned char red,unsigned char green,unsigned char blue);
 void clearScreenFast(FrameBuffer* fb,unsigned char color);
 void clearDepth(DepthBuffer* db);
+
 void flush(FrameBuffer* fb);
 void swapBuffer();
 
