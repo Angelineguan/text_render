@@ -51,6 +51,11 @@ void drawLine(ivec2 p0, ivec2 p1, TGAImage* image, TGAColor color)
 	}
 }
 
+//http://www.sunshine2k.de/coding/java/PointInTriangle/PointInTriangle.html
+//this is the artical point in triangle
+
+//http://www.sunshine2k.de/coding/java/TriangleRasterization/TriangleRasterization.html
+//this is the algrithm for triangle rasterize
 void drawTriangle(ivec2 p1, ivec2 p2, ivec2 p3, TGAImage* image, TGAColor fillColor)
 {
 // sort the vertices, t0, t1, t2 lower−to−upper (bubblesort yay!) 
