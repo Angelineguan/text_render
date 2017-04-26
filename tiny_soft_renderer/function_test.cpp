@@ -7,15 +7,17 @@ int main()
 	TGAColor fillColor = TGAColor(255, 0, 0, 255);
 	TGAColor outlineColor = TGAColor(0, 255, 0, 255);
 	//image.set(50, 50, red);
-	ivec2 p1 = { 20, 21 };
-	ivec2 p2 = { 59, 76 };
-	ivec2 p3 = { 90, 60 };
-	ivec2 p4 = { 5, 90 };
+	vec2f p1 = { 20, 21 };
+	vec2f p2 = { 59, 76 };
+	vec2f p3 = { 90, 60 };
+	vec2f p4 = { 5, 90 };
 //	drawLine(p1, p2, &image,fillColor);
-	drawTriangle(p1, p2, p3, &image, fillColor);
-	drawTriangle(p1, p4, p3, &image, fillColor);
-	drawTriangle(p4, p2, p3, &image, fillColor);
-	//drawLine(20, 20, 79, 89, &image, red);
+//	drawTriangle(p1, p2, p3, &image, outlineColor);
+	//drawTriangle(p1, p4, p3, &image, fillColor);
+	//drawTriangle(p4, p2, p3, &image, fillColor);
+	drawTriangle1(p1, p2, p3, &image, outlineColor);
+
+	//drawLine(20, 20, 79, 89, &image, fillColor);
 	//drawLine(79, 20, 20, 89, &image, red);
 	
 	image.flip_vertically();

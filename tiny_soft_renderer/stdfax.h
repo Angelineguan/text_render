@@ -1,39 +1,39 @@
 #pragma once
 #include "tgaimage.h"
 #include <iostream>
-#include <stdlib.h>
-#include <math.h>
+#include <algorithm>
+
 using namespace std;
 
-struct ivec2
+struct vec2f
 {
 	float x;
 	float y;
 
-	ivec2 operator-(const ivec2& right)
+	vec2f operator-(const vec2f& right)
 	{
-		ivec2 temp;
+		vec2f temp;
 		temp.x = this->x - right.x;
 		temp.y = this->y - right.y;
 		return temp;
 	}
 
-	float operator*(const ivec2& right)
+	float operator*(const vec2f& right)
 	{
 		return this->x * right.x + this->y * right.y;
 	}
 
-	ivec2 operator*(float val)
+	vec2f operator*(float val)
 	{
-		ivec2 temp;
+		vec2f temp;
 		temp.x = this->x*val;
 		temp.y = this->y*val;
 		return temp;
 	}
 
-	ivec2 operator+(const ivec2& right)
+	vec2f operator+(const vec2f& right)
 	{
-		ivec2 temp;
+		vec2f temp;
 		temp.x = this->x + right.x;
 		temp.y = this->y + right.y;
 		return temp;
@@ -42,6 +42,20 @@ struct ivec2
 	{
 		return sqrtf(this->x * this->x + this->y * this->y);
 	}
+
+	static vec2f normalize(vec2f v)
+	{
+		vec2f temp;
+		float length = v.length();
+		if (v.length() < 0.001f)
+		{
+			temp = { 0,0 };
+			return temp;
+		}
+		temp.x = v.x / v.length();
+		temp.y = v.y / v.length();
+		return temp;
+	}
 };
 	
-typedef ivec2 Point;
+typedef vec2f Point;
