@@ -16,6 +16,9 @@
     <Filter Include="Source Files\util">
       <UniqueIdentifier>{8f867e95-156a-4b8e-aa09-2b69b6698bd5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\math">
+      <UniqueIdentifier>{8271d5ad-f6de-4183-be40-a3f4aaee3870}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="util.h">
@@ -26,6 +29,9 @@
     </ClInclude>
     <ClInclude Include="tgaimage.h">
       <Filter>Source Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="vector2.h">
+      <Filter>Source Files\math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -40,6 +46,9 @@
     </ClCompile>
     <ClCompile Include="function_test.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vector2.cpp">
+      <Filter>Source Files\math</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
