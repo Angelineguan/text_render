@@ -3,7 +3,8 @@
 #include <sstream>
 #include "obj_model.h"
 
-ObjModel::ObjModel(const char *filename) {
+ObjModel::ObjModel(const char *filename) 
+{
     std::ifstream in;
     in.open (filename, std::ifstream::in);
     if (in.fail()) return;
@@ -48,11 +49,13 @@ ObjModel::ObjModel(const char *filename) {
 
 ObjModel::~ObjModel() {}
 
-int ObjModel::nverts() {
+int ObjModel::nverts() 
+{
     return (int)m_verts.size();
 }
 
-int ObjModel::nfaces() {
+int ObjModel::nfaces() 
+{
     return (int)m_faces.size();
 }
 
@@ -63,17 +66,18 @@ std::vector<Vertex> ObjModel::face(int idx)
     return face;
 }
 
-vec3f ObjModel::vert(int i) {
+vec3f ObjModel::vert(int i) 
+{
 	return m_verts[i];
 }
 
-
-vec3f ObjModel::vert(int iface, int nthvert) {
+vec3f ObjModel::vert(int iface, int nthvert) 
+{
     return m_verts[m_faces[iface][nthvert].vertexIndex];
 }
 
-
-void ObjModel::loadTexture(std::string filename, const char *suffix, TGAImage &img) {
+void ObjModel::loadTexture(std::string filename, const char *suffix, TGAImage &img) 
+{
     std::string texfile(filename);
     size_t dot = texfile.find_last_of(".");
     if (dot!=std::string::npos) {
@@ -83,12 +87,14 @@ void ObjModel::loadTexture(std::string filename, const char *suffix, TGAImage &i
     }
 }
 
-TGAColor ObjModel::diffuse(vec2f uvf) {
+TGAColor ObjModel::diffuse(vec2f uvf) 
+{
     vec2i uv((int)(uvf.x*m_diffusemap.get_width()), (int)(uvf.y*m_diffusemap.get_height()));
     return m_diffusemap.get(uv.x, uv.y);
 }
 
-vec3f ObjModel::normal(vec2f uvf) {
+vec3f ObjModel::normal(vec2f uvf) 
+{
 	vec2i uv((int)(uvf.x*m_diffusemap.get_width()), (int)(uvf.y*m_diffusemap.get_height()));
     TGAColor c = m_normalmap.get(uv.x, uv.y);
     vec3f res;
@@ -98,15 +104,19 @@ vec3f ObjModel::normal(vec2f uvf) {
     return res;
 }
 
-vec3f ObjModel::normal(int iface, int nthvert) {
+vec3f ObjModel::normal(int iface, int nthvert) 
+{
     int idx = m_faces[iface][nthvert].normalIndex;
     return m_norms[idx].normalize();
 }
-vec2f ObjModel::uv(int iface, int nthvert) {
+
+vec2f ObjModel::uv(int iface, int nthvert)
+{
     return m_uv[m_faces[iface][nthvert].uvIndex];
 }
 
-float ObjModel::specular(vec2f uvf) {
+float ObjModel::specular(vec2f uvf) 
+{
 	vec2i uv((int)(uvf.x*m_diffusemap.get_width()), (int)(uvf.y*m_diffusemap.get_height()));
     return m_specularmap.get(uv.x, uv.y)[0]/1.f;
 }
