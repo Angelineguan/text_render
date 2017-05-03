@@ -160,3 +160,67 @@ void drawCircle(vec2i center, int radius, TGAImage* image, TGAColor fiilColor)
 	}
 
 }
+
+void drawObjModel(ObjModel* model, TGAImage* image)
+{
+	int width = image->get_width();
+	int height = image->get_height();
+	for (int i = 0; i < model->nfaces(); i++) {
+		std::vector<Vertex> face = model->face(i);
+		vec2f screen_coords[3];
+		for (int j = 0; j < 3; j++) {
+			vec3f v = model->vert(face[j].vertexIndex);
+			screen_coords[j].x = (v.x + 1.0f)*width / 2;
+			screen_coords[j].y = (v.y + 1.0f)*height / 2;
+		}
+		drawTriangle_Crossproduct_Side(screen_coords[0], screen_coords[1], screen_coords[2],
+			image, TGAColor(rand() % 255, rand() % 255, rand() % 255, 255));
+	}
+	image->flip_vertically(); // i want to have the origin at the left bottom corner of the image
+	image->write_tga_file("model_test.tga");
+}
+
+vec3i world2Screen(vec3f worldPos, int screenWidth, int screenHeight)
+{
+	vec3i screenPos;
+	screenPos.x = (int)((worldPos.x + 1) * screenWidth / 2 + 0.5f);
+	screenPos.y = (int)((worldPos.y + 1) * screenHeight / 2 + 0.5f);
+	screenPos.z = (int)(worldPos.z + 0.5f);
+	return screenPos;
+}
+
+void drawObjModel_LightIntensity(ObjModel* model, TGAImage* image, vec3f lightDir)
+{
+	int width = image->get_width();
+	int height = image->get_height();
+	for (int i = 0; i < model->nfaces(); i++)
+	{
+		vec2f screen_coords[3];
+		vec3f world_coords[3];
+		std::vector<Vertex> tempFace = model->face(i);
+		vec3f v;
+		for (int j = 0; j < 3; j++)
+		{
+			v = model->vert(tempFace[j].vertexIndex);
+			world_coords[j] = v;
+			screen_coords[j].x = (v.x + 1.0f)*width / 2.0f;
+			screen_coords[j].y = (v.y + 1.0f)*height / 2.0f;
+		}
+
+		vec3f faceNormal = vec3f::crossProduct(world_coords[2] - world_coords[0], world_coords[1] - world_coords[0]);
+		faceNormal = faceNormal.normalize();
+		lightDir = lightDir.normalize();
+
+		float instensity = faceNormal * lightDir;
+
+		if (instensity >= 0)
+		{
+			drawTriangle_Crossproduct_Side(screen_coords[0], screen_coords[1], screen_coords[2],
+				image, TGAColor((int)(instensity * 255), (int)(instensity * 255), (int)(instensity * 255), 255));
+			//drawTriangle_Crossproduct_Side(screen_coords[0], screen_coords[1], screen_coords[2],
+			//	image, TGAColor(rand() % 255, rand() % 255, rand() % 255, 255));
+		}
+	}
+	image->flip_vertically(); // i want to have the origin at the left bottom corner of the image
+	image->write_tga_file("model_light_test.tga");
+}

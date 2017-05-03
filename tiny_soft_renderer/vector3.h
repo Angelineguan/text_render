@@ -26,6 +26,15 @@ public:
 		return temp;
 	}
 
+	vector3 operator-(T val)
+	{
+		vector3 temp;
+		temp.x = this->x - val;
+		temp.y = this->y - val;
+		temp.z = this->z - val;
+		return temp;
+	}
+
 	T operator*(const vector3& right)
 	{
 		return this->x * right.x + this->y * right.y + this->z * right.z;
@@ -54,16 +63,17 @@ public:
 		return sqrtf(this->x * this->x + this->y * this->y + this->z * this->z);
 	}
 
-	void normalize()
+	vector3 normalize()
 	{
 		T length = this->length();
 		if (length < 0.001f)
 		{
-			return;
+			return *this;
 		}
 		this->x /= length;
 		this->y /= length;
 		this->z /= length;
+		return *this;
 	}
 
 	static T distanceSuqare(const vector3& left, const vector3& right)

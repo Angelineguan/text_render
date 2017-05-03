@@ -1,6 +1,4 @@
 #pragma once
-#include "stdfax.h"
-
 
 template<typename T>
 class vector2

@@ -3,6 +3,6 @@
 #include <iostream>
 #include <algorithm>
 #include "vector2.h"
-#include "model.h"
+#include "obj_model.h"
 
 using namespace std;

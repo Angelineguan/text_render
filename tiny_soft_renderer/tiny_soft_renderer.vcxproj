@@ -78,8 +78,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="geometry.h" />
-    <ClInclude Include="model.h" />
+    <ClInclude Include="obj_model.h" />
     <ClInclude Include="stdfax.h" />
     <ClInclude Include="tgaimage.h" />
     <ClInclude Include="util.h" />
@@ -87,8 +86,7 @@
     <ClInclude Include="vector3.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="geometry.cpp" />
-    <ClCompile Include="model.cpp" />
+    <ClCompile Include="obj_model.cpp" />
     <ClCompile Include="model_test.cpp" />
     <ClCompile Include="stdfax.cpp" />
     <ClCompile Include="tgaimage.cpp" />
