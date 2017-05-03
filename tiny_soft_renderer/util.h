@@ -12,3 +12,6 @@ void drawCircle(vec2i center, int radius, TGAImage* image, TGAColor fiilColor);
 
 vec3i world2Screen(vec3f worldPos, int screenWidth, int screenHeight);
 
+
+vec3f calculateBarycentricCoordinate(vec3f p1, vec3f p2, vec3f p3, vec3f p);
+

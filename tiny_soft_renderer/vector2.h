@@ -73,6 +73,11 @@ public:
 		return sqrtf((left.x - right.x) * (left.x - right.x)
 			+ (left.y - right.y) * (left.y - right.y));
 	}
+
+	static T crossProduct(const vector2& left, const vector2& right)
+	{
+		return left.x * right.y - left.y * right.x;
+	}
 };
 
 typedef vector2<float> vec2f;
