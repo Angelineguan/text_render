@@ -13,6 +13,12 @@ struct Vertex
 	int normalIndex;
 };
 
+enum ModelRenderMode
+{
+	ModelRenderMode_RandomColor = 1,
+	ModelRenderMode_DirectionLight = 2
+};
+
 class ObjModel {
 public:
     ObjModel(const char *filename);
@@ -34,6 +40,8 @@ public:
     TGAColor diffuse(vec2f uv);
     float specular(vec2f uv);
     std::vector<Vertex> face(int idx);
+
+	void drawModel(TGAImage* image,ModelRenderMode mode, void* userdata);
 
 private:
     std::vector<vec3f> m_verts;

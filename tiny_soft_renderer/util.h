@@ -10,8 +10,5 @@ void drawTriangle_Crossproduct_Side(vec2f p1, vec2f p2, vec2f p3, TGAImage* imag
 
 void drawCircle(vec2i center, int radius, TGAImage* image, TGAColor fiilColor);
 
-void drawObjModel(ObjModel* model, TGAImage* image);
-
 vec3i world2Screen(vec3f worldPos, int screenWidth, int screenHeight);
 
-void drawObjModel_LightIntensity(ObjModel* model, TGAImage* image, vec3f lightDir);

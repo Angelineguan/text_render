@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include "obj_model.h"
+#include "util.h"
 
 ObjModel::ObjModel(const char *filename) 
 {
@@ -119,4 +120,49 @@ float ObjModel::specular(vec2f uvf)
 {
 	vec2i uv((int)(uvf.x*m_diffusemap.get_width()), (int)(uvf.y*m_diffusemap.get_height()));
     return m_specularmap.get(uv.x, uv.y)[0]/1.f;
+}
+
+void ObjModel::drawModel(TGAImage* image, ModelRenderMode mode, void* userdata)
+{
+	int width = image->get_width();
+	int height = image->get_height();
+	for (int i = 0; i < nfaces(); i++)
+	{
+		vec2f screen_coords[3];
+		vec3f world_coords[3];
+		std::vector<Vertex> tempFace = face(i);
+		vec3f v;
+		for (int j = 0; j < 3; j++)
+		{
+			v = vert(tempFace[j].vertexIndex);
+			if (mode == ModelRenderMode_DirectionLight)
+				world_coords[j] = v;
+			screen_coords[j].x = (v.x + 1.0f)*width / 2.0f;
+			screen_coords[j].y = (v.y + 1.0f)*height / 2.0f;
+		}
+
+		switch (mode)
+		{
+			case ModelRenderMode_RandomColor:
+				drawTriangle_Crossproduct_Side(screen_coords[0], screen_coords[1], screen_coords[2],
+												image, TGAColor(rand() % 255, rand() % 255, rand() % 255, 255));
+				break;
+			case ModelRenderMode_DirectionLight:
+				vec3f faceNormal = vec3f::crossProduct(world_coords[2] - world_coords[0], world_coords[1] - world_coords[0]);
+				faceNormal = faceNormal.normalize();
+				vec3f lightDir = *(vec3f*)userdata;
+				lightDir = lightDir.normalize();
+
+				float instensity = faceNormal * lightDir;
+				if (instensity >= 0)
+				{
+					drawTriangle_Crossproduct_Side(screen_coords[0], screen_coords[1], screen_coords[2],
+							image, TGAColor((int)(instensity * 255), (int)(instensity * 255), (int)(instensity * 255), 255));
+				}
+				break;
+		}
+			
+	}
+	image->flip_vertically(); // i want to have the origin at the left bottom corner of the image
+	image->write_tga_file("model_light_test.tga");
 }

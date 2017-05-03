@@ -61,10 +61,10 @@ struct TGAColor {
 
 class TGAImage {
 protected:
-    unsigned char* data;
-    int width;
-    int height;
-    int bytespp;
+    unsigned char* m_data;
+    int m_width;
+    int m_height;
+    int m_bytespp;
 
     bool   load_rle_data(std::ifstream &in);
     bool unload_rle_data(std::ofstream &out);
