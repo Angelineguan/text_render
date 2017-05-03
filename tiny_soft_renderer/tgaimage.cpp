@@ -36,7 +36,7 @@ TGAImage & TGAImage::operator =(const TGAImage &img) {
     return *this;
 }
 
-bool TGAImage::read_tga_file(const char *filename) {
+bool TGAImage::readTgaFile(const char *filename) {
     if (m_data) delete [] m_data;
     m_data = NULL;
     std::ifstream in;
@@ -82,10 +82,10 @@ bool TGAImage::read_tga_file(const char *filename) {
         return false;
     }
     if (!(header.imagedescriptor & 0x20)) {
-        flip_vertically();
+        flipVertically();
     }
     if (header.imagedescriptor & 0x10) {
-        flip_horizontally();
+        flipHorizontally();
     }
     std::cerr << m_width << "x" << m_height << "/" << m_bytespp*8 << "\n";
     in.close();
@@ -141,7 +141,7 @@ bool TGAImage::load_rle_data(std::ifstream &in) {
     return true;
 }
 
-bool TGAImage::write_tga_file(const char *filename, bool rle) {
+bool TGAImage::writeTgaFile(const char *filename, bool rle) {
     unsigned char developer_area_ref[4] = {0, 0, 0, 0};
     unsigned char extension_area_ref[4] = {0, 0, 0, 0};
     unsigned char footer[18] = {'T','R','U','E','V','I','S','I','O','N','-','X','F','I','L','E','.','\0'};
@@ -267,19 +267,19 @@ bool TGAImage::set(int x, int y, const TGAColor &c) {
     return true;
 }
 
-int TGAImage::get_bytespp() {
+int TGAImage::getBytespp() {
     return m_bytespp;
 }
 
-int TGAImage::get_width() {
+int TGAImage::getWidth() {
     return m_width;
 }
 
-int TGAImage::get_height() {
+int TGAImage::getHeight() {
     return m_height;
 }
 
-bool TGAImage::flip_horizontally() {
+bool TGAImage::flipHorizontally() {
     if (!m_data) return false;
     int half = m_width>>1;
     for (int i=0; i<half; i++) {
@@ -293,7 +293,7 @@ bool TGAImage::flip_horizontally() {
     return true;
 }
 
-bool TGAImage::flip_vertically() {
+bool TGAImage::flipVertically() {
     if (!m_data) return false;
     unsigned long bytes_per_line = m_width*m_bytespp;
     unsigned char *line = new unsigned char[bytes_per_line];

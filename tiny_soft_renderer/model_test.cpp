@@ -16,6 +16,11 @@ int main()
 	image.clear();
 	mode = ModelRenderMode_DirectionLight;
 	model->drawModel(&image, mode, (void*)&lightDir);
+
+	image.clear();
+	mode = ModelRenderMode_NormalMap;
+	model->drawModel(&image, mode, NULL);
+
 	delete model;
 
 	cout << "we start test function" << endl;

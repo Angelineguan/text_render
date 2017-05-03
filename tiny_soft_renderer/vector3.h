@@ -76,6 +76,11 @@ public:
 		return *this;
 	}
 
+	void setZero()
+	{
+		x = y = z = 0;
+	}
+
 	static T distanceSuqare(const vector3& left, const vector3& right)
 	{
 		return (left.x - right.x) * (left.x - right.x)

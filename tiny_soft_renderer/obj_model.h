@@ -16,7 +16,8 @@ struct Vertex
 enum ModelRenderMode
 {
 	ModelRenderMode_RandomColor = 1,
-	ModelRenderMode_DirectionLight = 2
+	ModelRenderMode_DirectionLight = 2,
+	ModelRenderMode_NormalMap = 3
 };
 
 class ObjModel {

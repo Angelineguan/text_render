@@ -83,20 +83,20 @@ void ObjModel::loadTexture(std::string filename, const char *suffix, TGAImage &i
     size_t dot = texfile.find_last_of(".");
     if (dot!=std::string::npos) {
         texfile = texfile.substr(0,dot) + std::string(suffix);
-        std::cerr << "texture file " << texfile << " loading " << (img.read_tga_file(texfile.c_str()) ? "ok" : "failed") << std::endl;
-        img.flip_vertically();
+        std::cerr << "texture file " << texfile << " loading " << (img.readTgaFile(texfile.c_str()) ? "ok" : "failed") << std::endl;
+        img.flipVertically();
     }
 }
 
 TGAColor ObjModel::diffuse(vec2f uvf) 
 {
-    vec2i uv((int)(uvf.x*m_diffusemap.get_width()), (int)(uvf.y*m_diffusemap.get_height()));
+    vec2i uv((int)(uvf.x*m_diffusemap.getWidth()), (int)(uvf.y*m_diffusemap.getHeight()));
     return m_diffusemap.get(uv.x, uv.y);
 }
 
 vec3f ObjModel::normal(vec2f uvf) 
 {
-	vec2i uv((int)(uvf.x*m_diffusemap.get_width()), (int)(uvf.y*m_diffusemap.get_height()));
+	vec2i uv((int)(uvf.x*m_diffusemap.getWidth()), (int)(uvf.y*m_diffusemap.getHeight()));
     TGAColor c = m_normalmap.get(uv.x, uv.y);
     vec3f res;
 	res.x = (float)c[0] / 255.f*2.f - 1.f;
@@ -118,37 +118,43 @@ vec2f ObjModel::uv(int iface, int nthvert)
 
 float ObjModel::specular(vec2f uvf) 
 {
-	vec2i uv((int)(uvf.x*m_diffusemap.get_width()), (int)(uvf.y*m_diffusemap.get_height()));
+	vec2i uv((int)(uvf.x*m_diffusemap.getWidth()), (int)(uvf.y*m_diffusemap.getHeight()));
     return m_specularmap.get(uv.x, uv.y)[0]/1.f;
 }
 
 void ObjModel::drawModel(TGAImage* image, ModelRenderMode mode, void* userdata)
 {
-	int width = image->get_width();
-	int height = image->get_height();
+	int width = image->getWidth();
+	int height = image->getHeight();
 	for (int i = 0; i < nfaces(); i++)
 	{
-		vec2f screen_coords[3];
-		vec3f world_coords[3];
+		vec2f screenCoords[3];
+		vec3f worldCoords[3];
+		vec3f normalCoords[3];
 		std::vector<Vertex> tempFace = face(i);
 		vec3f v;
 		for (int j = 0; j < 3; j++)
 		{
 			v = vert(tempFace[j].vertexIndex);
 			if (mode == ModelRenderMode_DirectionLight)
-				world_coords[j] = v;
-			screen_coords[j].x = (v.x + 1.0f)*width / 2.0f;
-			screen_coords[j].y = (v.y + 1.0f)*height / 2.0f;
+				worldCoords[j] = v;
+			if (mode == ModelRenderMode_NormalMap)
+			{
+				normalCoords[j] = normal(i,j);
+			}
+			screenCoords[j].x = (v.x + 1.0f)*width / 2.0f;
+			screenCoords[j].y = (v.y + 1.0f)*height / 2.0f;
 		}
 
 		switch (mode)
 		{
 			case ModelRenderMode_RandomColor:
-				drawTriangle_Crossproduct_Side(screen_coords[0], screen_coords[1], screen_coords[2],
+				drawTriangle_Crossproduct_Side(screenCoords[0], screenCoords[1], screenCoords[2],
 												image, TGAColor(rand() % 255, rand() % 255, rand() % 255, 255));
 				break;
 			case ModelRenderMode_DirectionLight:
-				vec3f faceNormal = vec3f::crossProduct(world_coords[2] - world_coords[0], world_coords[1] - world_coords[0]);
+			{
+				vec3f faceNormal = vec3f::crossProduct(worldCoords[2] - worldCoords[0], worldCoords[1] - worldCoords[0]);
 				faceNormal = faceNormal.normalize();
 				vec3f lightDir = *(vec3f*)userdata;
 				lightDir = lightDir.normalize();
@@ -156,13 +162,27 @@ void ObjModel::drawModel(TGAImage* image, ModelRenderMode mode, void* userdata)
 				float instensity = faceNormal * lightDir;
 				if (instensity >= 0)
 				{
-					drawTriangle_Crossproduct_Side(screen_coords[0], screen_coords[1], screen_coords[2],
-							image, TGAColor((int)(instensity * 255), (int)(instensity * 255), (int)(instensity * 255), 255));
+					drawTriangle_Crossproduct_Side(screenCoords[0], screenCoords[1], screenCoords[2],
+							image, TGAColor((int)(instensity * 255), (int)(instensity * 128), (int)(instensity * 255), 255));
 				}
 				break;
+			}
+			case ModelRenderMode_NormalMap:
+			{
+				vec3f normal;
+				normal.setZero();
+				for (int i = 0; i < 3; i ++)
+				{
+					normal = normal + normalCoords[i];
+				}
+				normal = normal.normalize();
+				drawTriangle_Crossproduct_Side(screenCoords[0], screenCoords[1], screenCoords[2],
+					image, TGAColor((int)(normal.x * 255), (int)(normal.x * 255), (int)(normal.x* 255), 255));
+				break;
+			}
 		}
 			
 	}
-	image->flip_vertically(); // i want to have the origin at the left bottom corner of the image
-	image->write_tga_file("model_light_test.tga");
+	image->flipVertically(); // i want to have the origin at the left bottom corner of the image
+	image->writeTgaFile("model_normal_test.tga");
 }
