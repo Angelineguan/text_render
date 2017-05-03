@@ -59,22 +59,7 @@ void drawLine(vec2f p0, vec2f p1, TGAImage* image, TGAColor color)
 	}
 }
 
-vec3f calculateBarycentricCoordinate(vec2f p1, vec2f p2, vec2f p3, vec2f p)
-{
-	float area1 = 0.5f * vec2f::crossProduct(p2 - p, p3 - p)/ (p2 - p).length() * (p3 - p).length();
-	float area2 = 0.5f * vec2f::crossProduct(p3 - p, p1 - p)/ (p1 - p).length() * (p3 - p).length();
-	float area3 = 0.5f * vec2f::crossProduct(p1 - p, p2 - p)/ (p1 - p).length() * (p2 - p).length();
 
-	float sum = area1 + area2 + area3;
-	return vec3f(area1 / sum, area2 / sum, area3 / sum);
-}
-
-TGAColor getColorFromUv(TGAImage* image, vec2f uv)
-{
-	float width = image->getWidth();
-	float height = image->getHeight();
-	return image->get((int)(uv.x * width), (int)(uv.y * height));
-}
 
 //http://www.sunshine2k.de/coding/java/PointInTriangle/PointInTriangle.html
 //this is the artical point in triangle "Crossproduct Side Algorithm"
@@ -113,6 +98,24 @@ void drawTriangle_Crossproduct_Side(vec2f p1, vec2f p2, vec2f p3, TGAImage* imag
 				image->set(x, y, fillColor);
 		}
 	}
+}
+
+
+vec3f calculateBarycentricCoordinate(vec2f p1, vec2f p2, vec2f p3, vec2f p)
+{
+	float area1 = 0.5f * vec2f::crossProduct(p2 - p, p3 - p) / (p2 - p).length() * (p3 - p).length();
+	float area2 = 0.5f * vec2f::crossProduct(p3 - p, p1 - p) / (p1 - p).length() * (p3 - p).length();
+	float area3 = 0.5f * vec2f::crossProduct(p1 - p, p2 - p) / (p1 - p).length() * (p2 - p).length();
+
+	float sum = area1 + area2 + area3;
+	return vec3f(area1 / sum, area2 / sum, area3 / sum);
+}
+
+TGAColor getColorFromUv(TGAImage* image, vec2f uv)
+{
+	int width = image->getWidth();
+	int height = image->getHeight();
+	return image->get((int)(uv.x * width), (int)(uv.y * height));
 }
 
 void drawTriangleWithTexture(vec2f* pts, vec2f* uv, TGAImage* image, TGAImage* texure)
