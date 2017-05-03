@@ -88,9 +88,9 @@ void drawTriangle_Crossproduct_Side(vec2f p1, vec2f p2, vec2f p3, TGAImage* imag
 	xmax = max(max(p1.x, p2.x), p3.x);
 	ymax = max(max(p1.y, p2.y), p3.y);
 	
-	for (int y = (int)ymin; y < (int)ymax; y++)
+	for (int y = (int)ymin; y <= (int)ymax; y++)
 	{
-		for (int x = (int)xmin; x < (int)xmax; x++)
+		for (int x = (int)xmin; x <= (int)xmax; x++)
 		{
 			if (pointInTriangle(p1, p2, p3, vec2f((float)x, (float)y)))
 				image->set(x, y, fillColor);

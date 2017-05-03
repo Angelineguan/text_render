@@ -78,17 +78,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="geometry.h" />
+    <ClInclude Include="model.h" />
     <ClInclude Include="stdfax.h" />
     <ClInclude Include="tgaimage.h" />
     <ClInclude Include="util.h" />
     <ClInclude Include="vector2.h" />
+    <ClInclude Include="vector3.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="function_test.cpp" />
+    <ClCompile Include="geometry.cpp" />
+    <ClCompile Include="model.cpp" />
+    <ClCompile Include="model_test.cpp" />
     <ClCompile Include="stdfax.cpp" />
     <ClCompile Include="tgaimage.cpp" />
     <ClCompile Include="util.cpp" />
     <ClCompile Include="vector2.cpp" />
+    <ClCompile Include="vector3.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
