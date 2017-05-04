@@ -1,0 +1,2 @@
+#include "stdfax.h"
+
