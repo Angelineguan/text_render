@@ -100,9 +100,11 @@ void drawTriangle_Crossproduct_Side(vec2f p1, vec2f p2, vec2f p3, TGAImage* imag
 	}
 }
 
-
 vec3f calculateBarycentricCoordinate(vec2f p1, vec2f p2, vec2f p3, vec2f p)
 {
+	if ((p2 - p).x == 0.0f || (p2 - p).y == 0.0f)
+		return;
+
 	float area1 = 0.5f * vec2f::crossProduct(p2 - p, p3 - p) / (p2 - p).length() * (p3 - p).length();
 	float area2 = 0.5f * vec2f::crossProduct(p3 - p, p1 - p) / (p1 - p).length() * (p3 - p).length();
 	float area3 = 0.5f * vec2f::crossProduct(p1 - p, p2 - p) / (p1 - p).length() * (p2 - p).length();
@@ -185,6 +187,90 @@ void drawTriangle(vec2f p1, vec2f p2, vec2f p3, TGAImage* image, TGAColor fillCo
 	}
 }
 
+void drawTriangle_GroundShading(vec2f p1, vec2f p2, vec2f p3, TGAImage* image, TGAColor p1Color, TGAColor p2Color, TGAColor p3Color)
+{
+	float xmin, xmax, ymin, ymax;
+	xmin = xmax = ymin = ymax = 0.0f;
+
+	xmin = min(min(p1.x, p2.x), p3.x);
+	ymin = min(min(p1.y, p2.y), p3.y);
+
+	xmax = max(max(p1.x, p2.x), p3.x);
+	ymax = max(max(p1.y, p2.y), p3.y);
+
+	for (int y = (int)ymin; y <= (int)ymax; y++)
+	{
+		for (int x = (int)xmin; x <= (int)xmax; x++)
+		{
+			vec2f p((float)x, (float)y);
+			if (pointInTriangle(p1, p2, p3, p))
+			{
+				vec3f baryCentric = calculateBarycentricCoordinate(p1, p2, p3, p);
+				TGAColor color = p1Color * baryCentric.x + p2Color * baryCentric.y + p3Color* baryCentric.z;
+				image->set(x, y, color);
+			}
+		}
+	}
+	image->flipVertically(); // i want to have the origin at the left bottom corner of the image
+	image->writeTgaFile("triangle_groudshading.tga");
+}
+
+void drawTriangle_GroundShading(vec2f* pts, TGAImage* image, TGAColor* ptColors)
+{
+	float xmin, xmax, ymin, ymax;
+	xmin = xmax = ymin = ymax = 0.0f;
+
+	xmin = min(min(pts[0].x, pts[1].x), pts[2].x);
+	ymin = min(min(pts[0].y, pts[1].y), pts[2].y);
+
+	xmax = max(max(pts[0].x, pts[1].x), pts[2].x);
+	ymax = max(max(pts[0].y, pts[1].y), pts[2].y);
+
+	for (int y = (int)ymin; y <= (int)ymax; y++)
+	{
+		for (int x = (int)xmin; x <= (int)xmax; x++)
+		{
+			vec2f p((float)x, (float)y);
+			if (pointInTriangle(pts[0], pts[1], pts[2], p))
+			{
+				vec3f baryCentric = calculateBarycentricCoordinate(pts[0], pts[1], pts[2], p);
+				TGAColor color = ptColors[0] * baryCentric.x + ptColors[1] * baryCentric.y + ptColors[2] * baryCentric.z;
+				image->set(x, y, color);
+			}
+		}
+	}
+	image->flipVertically(); // i want to have the origin at the left bottom corner of the image
+	image->writeTgaFile("triangle_groudshading.tga");
+}
+
+void drawTriangle_Texture(vec2f* pts, TGAImage* image, vec2f* ptUvs, TGAImage* texture)
+{
+	float xmin, xmax, ymin, ymax;
+	xmin = xmax = ymin = ymax = 0.0f;
+
+	xmin = min(min(pts[0].x, pts[1].x), pts[2].x);
+	ymin = min(min(pts[0].y, pts[1].y), pts[2].y);
+
+	xmax = max(max(pts[0].x, pts[1].x), pts[2].x);
+	ymax = max(max(pts[0].y, pts[1].y), pts[2].y);
+
+	
+	for (int y = (int)ymin; y <= (int)ymax; y++)
+	{
+		for (int x = (int)xmin; x <= (int)xmax; x++)
+		{
+			vec2f p((float)x, (float)y);
+			if (pointInTriangle(pts[0], pts[1], pts[2], p))
+			{
+				vec3f baryCentric = calculateBarycentricCoordinate(pts[0], pts[1], pts[2], p);
+				vec2f uv = ptUvs[0] * baryCentric.x + ptUvs[1] * baryCentric.y + ptUvs[2] * baryCentric.z;
+				image->set(x, y, getColorFromUv(texture, uv));
+			}
+		}
+	}
+	image->flipVertically(); // i want to have the origin at the left bottom corner of the image
+	image->writeTgaFile("triangle_texture.tga");
+}
 void drawCircle(vec2i center, int radius, TGAImage* image, TGAColor fiilColor)
 {
 	int xmin, xmax;
@@ -218,5 +304,7 @@ vec3i world2Screen(vec3f worldPos, int screenWidth, int screenHeight)
 	screenPos.z = (int)(worldPos.z + 0.5f);
 	return screenPos;
 }
+
+
 
 
