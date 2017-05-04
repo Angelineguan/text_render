@@ -2,6 +2,7 @@
 #define __IMAGE_H__
 
 #include <fstream>
+#include "math_util.h"
 
 #pragma pack(push,1)
 struct TGA_Header {
@@ -57,6 +58,16 @@ struct TGAColor {
 		for (int i = 0; i<4; i++) res.bgra[i] = unsigned char(bgra[i] * intensity);
         return res;
     }
+
+	TGAColor operator+(const TGAColor& color)
+	{
+		TGAColor temp;
+		temp[0] = (unsigned char)clamp((int)(bgra[0] + color.bgra[0]),0,255);
+		temp[1] = (unsigned char)clamp((int)(bgra[1] + color.bgra[1]), 0, 255);
+		temp[2] = (unsigned char)clamp((int)(bgra[2] + color.bgra[2]), 0, 255);
+		temp[3] = (unsigned char)clamp((int)(bgra[3] + color.bgra[3]), 0, 255);
+		return temp;
+	}
 };
 
 class TGAImage {
