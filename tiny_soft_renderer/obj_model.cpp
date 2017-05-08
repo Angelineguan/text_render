@@ -108,7 +108,9 @@ vec3f ObjModel::normal(vec2f uvf)
 vec3f ObjModel::normal(int iface, int nthvert) 
 {
     int idx = m_faces[iface][nthvert].normalIndex;
-    return m_norms[idx].normalize();
+	vec3f normal = m_norms[idx];
+	normal.normalize();
+    return normal;
 }
 
 vec2f ObjModel::uv(int iface, int nthvert)
@@ -155,9 +157,9 @@ void ObjModel::drawModel(TGAImage* image, ModelRenderMode mode, void* userdata)
 			case ModelRenderMode_DirectionLight:
 			{
 				vec3f faceNormal = vec3f::crossProduct(worldCoords[2] - worldCoords[0], worldCoords[1] - worldCoords[0]);
-				faceNormal = faceNormal.normalize();
+				faceNormal.normalize();
 				vec3f lightDir = *(vec3f*)userdata;
-				lightDir = lightDir.normalize();
+				lightDir.normalize();
 
 				float instensity = faceNormal * lightDir;
 				if (instensity >= 0)
@@ -175,7 +177,7 @@ void ObjModel::drawModel(TGAImage* image, ModelRenderMode mode, void* userdata)
 				{
 					normal = normal + normalCoords[i];
 				}
-				normal = normal.normalize();
+				normal.normalize();
 				drawTriangle_Crossproduct_Side(screenCoords[0], screenCoords[1], screenCoords[2],
 					image, TGAColor((int)(normal.x * 255), (int)(normal.x * 255), (int)(normal.x* 255), 255));
 				break;

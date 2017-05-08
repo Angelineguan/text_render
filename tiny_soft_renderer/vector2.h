@@ -17,49 +17,42 @@ public:
 
 	vector2 operator-(const vector2& right)
 	{
-		vector2 temp;
-		temp.x = this->x - right.x;
-		temp.y = this->y - right.y;
-		return temp;
-	}
-
-	T operator*(const vector2& right)
-	{
-		return this->x * right.x + this->y * right.y;
-	}
-
-	vector2 operator*(T val)
-	{
-		vector2 temp;
-		temp.x = this->x*val;
-		temp.y = this->y*val;
-		return temp;
+		return vector2(x - right.x, y - right.y);
 	}
 
 	vector2 operator+(const vector2& right)
 	{
-		vector2 temp;
-		temp.x = this->x + right.x;
-		temp.y = this->y + right.y;
-		return temp;
-	}
-	T length()
-	{
-		return sqrtf(this->x * this->x + this->y * this->y);
+		return vector2(x + right.x, y + right.y);
 	}
 
-	static vector2 normalize(vector2& v)
+	T operator*(const vector2& right)
 	{
-		vector2 temp;
-		T length = v.length();
-		if (v.length() < 0.001f)
-		{
-			temp = { 0, 0 };
-			return temp;
-		}
-		temp.x = v.x / v.length();
-		temp.y = v.y / v.length();
-		return temp;
+		return x * right.x + y * right.y;
+	}
+
+	vector2 operator*(T val)
+	{
+		return vector2(x * val, y * val);
+	}
+
+	bool operator==(const vector2& right)
+	{
+		return std::abs(x - right.x) <= 0.0001f && std::abs(y - right.y) <= 0.0001f;
+	}
+
+	T length()
+	{
+		return sqrtf(x * x + y * y);
+	}
+
+	void normalize()
+	{
+		T l = length();
+		if (l < 0.001f)
+			return;
+
+		x /= l;
+		y /= l;
 	}
 
 	static T distanceSuqare(const vector2& left, const vector2& right)
@@ -82,5 +75,4 @@ public:
 
 typedef vector2<float> vec2f;
 typedef vector2<int> vec2i;
-typedef vector2<double> vec2d;
 

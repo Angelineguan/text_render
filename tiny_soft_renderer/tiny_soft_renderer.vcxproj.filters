@@ -39,6 +39,9 @@
     <ClInclude Include="obj_model.h">
       <Filter>Source Files\util</Filter>
     </ClInclude>
+    <ClInclude Include="math_util.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="util.cpp">
@@ -56,11 +59,14 @@
     <ClCompile Include="vector3.cpp">
       <Filter>Source Files\math</Filter>
     </ClCompile>
-    <ClCompile Include="model_test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="obj_model.cpp">
       <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="draw_triangle_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="math_util.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

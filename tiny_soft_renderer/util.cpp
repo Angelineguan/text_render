@@ -102,8 +102,12 @@ void drawTriangle_Crossproduct_Side(vec2f p1, vec2f p2, vec2f p3, TGAImage* imag
 
 vec3f calculateBarycentricCoordinate(vec2f p1, vec2f p2, vec2f p3, vec2f p)
 {
-	if ((p2 - p).x == 0.0f || (p2 - p).y == 0.0f)
-		return;
+	if (p1 == p)
+		return vec3f(1.0f, 0, 0);
+	else if (p2 == p)
+		return vec3f(0, 1.0f, 0);
+	else if (p3 == p)
+		return vec3f(0, 0, 1.0f);
 
 	float area1 = 0.5f * vec2f::crossProduct(p2 - p, p3 - p) / (p2 - p).length() * (p3 - p).length();
 	float area2 = 0.5f * vec2f::crossProduct(p3 - p, p1 - p) / (p1 - p).length() * (p3 - p).length();

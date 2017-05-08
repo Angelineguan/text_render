@@ -17,63 +17,40 @@ public:
 		z = _z;
 	}
 
-	vector3 operator-(const vector3& right)
+	vector3 operator+(const vector3& right)
 	{
-		vector3 temp;
-		temp.x = this->x - right.x;
-		temp.y = this->y - right.y;
-		temp.z = this->z - right.z;
-		return temp;
+		return vector3(x + right.x, y + right.y, z + right.z);
 	}
 
-	vector3 operator-(T val)
+	vector3 operator-(const vector3& right)
 	{
-		vector3 temp;
-		temp.x = this->x - val;
-		temp.y = this->y - val;
-		temp.z = this->z - val;
-		return temp;
+		return vector3(x - right.x, y - right.y, z - right.z);
 	}
 
 	T operator*(const vector3& right)
 	{
-		return this->x * right.x + this->y * right.y + this->z * right.z;
+		return x * right.x + y * right.y + z * right.z;
 	}
-
 
 	vector3 operator*(T val)
 	{
-		vector3 temp;
-		temp.x = this->x*val;
-		temp.y = this->y*val;
-		temp.z = this->z*val;
-		return temp;
+		return vector3(x * val, y * val, z * val);
 	}
 
-	vector3 operator+(const vector3& right)
-	{
-		vector3 temp;
-		temp.x = this->x + right.x;
-		temp.y = this->y + right.y;
-		temp.z = this->z + right.z;
-		return temp;
-	}
 	T length()
 	{
-		return sqrtf(this->x * this->x + this->y * this->y + this->z * this->z);
+		return sqrtf(x * x + y * y + z * z);
 	}
 
-	vector3 normalize()
+	void normalize()
 	{
-		T length = this->length();
-		if (length < 0.001f)
-		{
-			return *this;
-		}
-		this->x /= length;
-		this->y /= length;
-		this->z /= length;
-		return *this;
+		T l = length();
+		if (l < 0.001f)
+			return ;
+
+		x /= l;
+		y /= l;
+		z /= l;
 	}
 
 	void setZero()
@@ -97,11 +74,9 @@ public:
 
 	static vector3 crossProduct(const vector3& left, const vector3& right)
 	{
-		vector3 temp;
-		temp.x = left.y * right.z - left.z * right.y;
-		temp.y = left.z * right.x - left.x * right.z;
-		temp.z = left.x * right.y - left.y * right.x;
-		return temp;
+		return vector3(left.y * right.z - left.z * right.y,
+			left.z * right.x - left.x * right.z,
+			left.x * right.y - left.y * right.x);
 	}
 };
 
