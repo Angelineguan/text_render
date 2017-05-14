@@ -1,10 +1,8 @@
 #pragma  once
+#include "stdafx.h"
 #include "rs_programe.h"
-#include "object.h"
-#include "Vector3.h"
-#include "util.h"
 
-class Triangle : public Object
+class Triangle 
 {
 public:
 	Triangle(GLfloat* vertex, size_t num);
@@ -16,13 +14,13 @@ public:
 	}
 	void setInnerColor(Color color);
 	void setOutLineColor(Color color);
-	void setOffset(vec3* offset);
+	void setOffset(vec3f* offset);
 private:
+	RsProgram* m_programe;
 	GLuint m_vboHandle;
 	GLuint m_vaoHandle;
-	RsProgram* m_programe;
 	Color m_innerColor;
 	Color m_outLineColor;
-	vec3 m_offset;
+	vec3f m_offset;
 	bool m_isDrawOutline;
 };

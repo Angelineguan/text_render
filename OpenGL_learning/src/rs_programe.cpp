@@ -1,5 +1,4 @@
 #include "rs_programe.h"
-#include "stdafx.h"
 
 RsProgram::RsProgram( const GLchar* vertexShaderSource, const GLchar* fragmentShaderSource )
 {

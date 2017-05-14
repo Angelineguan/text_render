@@ -1,11 +1,26 @@
 #pragma  once
 #include "stdafx.h"
+#include "rs_programe.h"
+class GraphicContext
+{
+public:
+	static GraphicContext* instance();
 
-DrawContext* GraphicContext_construct(int width,int height)	;
+	static DrawContext* getContext();
 
-DrawContext* getGraphicContext();
+	static void freeGraphicContext();
 
-void Graphic_destruct();
+	void setCallbackCollections();
 
-void setGraphicCallbackCollections();
+protected:
+	GraphicContext(int width, int height);
 
+	~GraphicContext();
+
+public:
+	RsProgram* m_trianglePrograme;
+	RsProgram* m_modelPrograme;
+
+private:
+	DrawContext* m_context;
+};

@@ -27,17 +27,11 @@
     <ClCompile Include="src\callback_collections.cpp">
       <Filter>源文件\util</Filter>
     </ClCompile>
-    <ClCompile Include="src\main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="src\triangle.cpp">
       <Filter>源文件\geometry</Filter>
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp">
       <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\object.cpp">
-      <Filter>源文件\geometry</Filter>
     </ClCompile>
     <ClCompile Include="src\rs_programe.cpp">
       <Filter>源文件\graphic</Filter>
@@ -51,24 +45,24 @@
     <ClCompile Include="src\texture.cpp">
       <Filter>源文件\graphic</Filter>
     </ClCompile>
-    <ClCompile Include="src\util.cpp">
+    <ClCompile Include="src\main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\color.cpp">
       <Filter>源文件\util</Filter>
     </ClCompile>
-    <ClCompile Include="src\texture_atlas.cpp">
-      <Filter>源文件\graphic</Filter>
+    <ClCompile Include="src\shader_util.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\model.cpp">
+      <Filter>源文件\geometry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\util.h">
-      <Filter>源文件\util</Filter>
-    </ClInclude>
     <ClInclude Include="src\stdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\triangle.h">
-      <Filter>源文件\geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="src\object.h">
       <Filter>源文件\geometry</Filter>
     </ClInclude>
     <ClInclude Include="src\rs_programe.h">
@@ -86,8 +80,14 @@
     <ClInclude Include="src\texture.h">
       <Filter>源文件\graphic</Filter>
     </ClInclude>
-    <ClInclude Include="src\texture_atlas.h">
-      <Filter>源文件\graphic</Filter>
+    <ClInclude Include="src\color.h">
+      <Filter>源文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shader_util.h">
+      <Filter>源文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\model.h">
+      <Filter>源文件\geometry</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

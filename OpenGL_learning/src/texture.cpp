@@ -56,7 +56,7 @@ void Texture::_createTexture()
 Texture::Texture(GLchar* imageName, TextureWrap wrap, TextureFilter filter)
 	: m_wrapMode(wrap), m_filterMode(filter)
 {
-	assert(imageName == NULL);
+	assert(imageName != NULL);
 	_createTexture(imageName);
 }
 
@@ -98,10 +98,10 @@ void Texture::_createTexture(GLchar* imageName)
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		break;
-	}
+	}   
 
-	unsigned char* image = SOIL_load_image(imageName, &m_width, &m_height,0,0);
-	assert(m_tex == NULL);
+	unsigned char* image = SOIL_load_image(imageName, &m_width, &m_height, &m_channel, SOIL_LOAD_AUTO);
+	assert(m_tex != NULL);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_FLOAT, m_width, m_height, 0, GL_RGBA,GL_UNSIGNED_BYTE,(void*)image);
 

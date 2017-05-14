@@ -1,23 +1,25 @@
 #include "stdafx.h"
 #include "graphic_context.h"
 #include "triangle.h"
-#include "util.h"
-#include "object.h"
+#include "model.h"
 
-extern GLfloat vertex[];
+extern GLfloat vertex0[];
 extern GLfloat vertex1[];
 
 int main()
 {
-	DrawContext* drawContext = GraphicContext_construct(800, 600);
-	Object* triange = new Triangle(vertex, 18);
-	Object* triange1 = new Triangle(vertex1, 18);
+	DrawContext* drawContext = GraphicContext::getContext();
+	Triangle* triange = new Triangle(vertex0, 18);
+	Triangle* triange1 = new Triangle(vertex1, 18);
 
-	vec3 offset = vec3_makeZero();
+
+	Model* model = new Model("obj/african_head/");
+	vec3f offset;
+	offset.setZero();
 	 
 	triange->setOffset(&offset);
 	triange1->setOffset(&offset);
-	setGraphicCallbackCollections();
+	//setGraphicCallbackCollections();
 	int width, height;
 	
 	glfwGetFramebufferSize(drawContext, &width, &height);
@@ -38,7 +40,6 @@ int main()
 		glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 		
-		vec3 offset = vec3_makeZero();
 		Color innerColor;
 		innerColor = Color_make(1.0, 0.0, 0.0, 1.0);
 		glfwPollEvents();  
@@ -59,9 +60,10 @@ int main()
 		//////////////////////////////////////////////////////////////////////////
 		glfwSwapBuffers(drawContext);
 	}		
-	Graphic_destruct();
 	delete triange1;
 	delete triange;
+
+	GraphicContext::freeGraphicContext();
 
 	return 0;
 }

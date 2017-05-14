@@ -1,5 +1,6 @@
 #pragma once
 #include "stdafx.h"
+#include "vector2.h"
 
 enum TextureWrap
 {
@@ -30,8 +31,8 @@ public:
 
 	SizeI getTextureSize() {
 		SizeI size;
-		size.x = m_width;
-		size.y = m_height;
+		size.width = m_width;
+		size.height= m_height;
 		return size;
 	}
 

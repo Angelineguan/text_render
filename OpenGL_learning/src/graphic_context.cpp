@@ -1,48 +1,73 @@
 #include "graphic_context.h"
-#include "callback_collections.h"
 
-DrawContext* g_context;
+static GraphicContext* g_context = NULL;
 
-DrawContext* GraphicContext_construct(int width,int height)
+GraphicContext* GraphicContext::instance()
 {
-	if (!glfwInit())
-		return NULL;
-
-	g_context = glfwCreateWindow(800, 600, "Learn OpenGL", nullptr,nullptr);
-	if (!g_context)
+	if (g_context == NULL)
 	{
-		cout<<"create window failed"<<endl;
-		glfwTerminate();
-		return NULL;
+		g_context = new GraphicContext(800, 600);
 	}
 
-	glfwMakeContextCurrent(g_context);
+	return g_context;
+}
+
+void GraphicContext::freeGraphicContext()
+{
+	if (g_context != NULL)
+	{
+		delete g_context;
+	}
+}
+
+GraphicContext::GraphicContext(int width, int height)
+{
+	if (!glfwInit())
+		return ;
+
+	m_context = glfwCreateWindow(width, height, "Learn OpenGL", nullptr, nullptr);
+	if (!m_context)
+	{
+		cout << "create window failed" << endl;
+		glfwTerminate();
+		return ;
+	}
+
+	glfwMakeContextCurrent(m_context);
 
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
 	{
-		cout<<" failed to initialize the GLEW"<<endl;
+		cout << " failed to initialize the GLEW" << endl;
 		glfwTerminate();
-		return NULL;
+		return ;
 	}
-	return g_context;
+
+	m_trianglePrograme = NULL; 
+	m_modelPrograme = NULL;
 }
 
-DrawContext* getGraphicContext()
+GraphicContext::~GraphicContext()
 {
-	return g_context;
-}
-
-void Graphic_destruct()
-{
-	DrawContext* o = g_context;
-	glfwDestroyWindow(o);
+	glfwDestroyWindow(m_context);
 	glfwTerminate();
+
+	if (m_trianglePrograme != NULL)
+	{
+		delete m_trianglePrograme;
+	}
+
+	if (m_modelPrograme != NULL)
+	{
+		delete m_modelPrograme;
+	}
 }
 
-void setGraphicCallbackCollections()
+DrawContext* GraphicContext::getContext()
 {
-	DrawContext*o = g_context;
-	glfwSetKeyCallback(o,key_callback);
+	if (g_context == NULL)
+	{
+		g_context = new GraphicContext(800, 600);
+	}
+	return g_context->m_context;
 }
-

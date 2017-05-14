@@ -15,36 +15,37 @@
     <ClCompile Include="src\framebuffer.cpp" />
     <ClCompile Include="src\graphic_context.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\object.cpp" />
+    <ClCompile Include="src\model.cpp" />
     <ClCompile Include="src\rs_programe.cpp" />
+    <ClCompile Include="src\shader_util.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
     <ClCompile Include="src\texture.cpp" />
-    <ClCompile Include="src\texture_atlas.cpp" />
     <ClCompile Include="src\triangle.cpp" />
-    <ClCompile Include="src\util.cpp" />
+    <ClCompile Include="src\color.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\callback_collections.h" />
     <ClInclude Include="src\framebuffer.h" />
     <ClInclude Include="src\graphic_context.h" />
-    <ClInclude Include="src\object.h" />
+    <ClInclude Include="src\model.h" />
     <ClInclude Include="src\rs_programe.h" />
+    <ClInclude Include="src\shader_util.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\texture.h" />
-    <ClInclude Include="src\texture_atlas.h" />
     <ClInclude Include="src\triangle.h" />
-    <ClInclude Include="src\util.h" />
+    <ClInclude Include="src\color.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{351DE219-ED02-4ADD-87FC-734AF6407568}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>OpenGL_learning</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -66,7 +67,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\GYQ\Desktop\Text_Rendering\OpenGL_learning\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\12446\Desktop\text_render\tiny_soft_renderer;C:\Users\GYQ\Desktop\Text_Rendering\OpenGL_learning\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -77,16 +78,16 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;glew32.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

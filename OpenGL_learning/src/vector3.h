@@ -1,115 +1,84 @@
 #pragma once
-#include "stdafx.h"
 
-class Vector3
+template<typename T>
+class vector3
 {
 public:
-	Vector3(){}
-	Vector3(const Vector3 &a):x(a.x),y(a.y),z(a.z){}
-	Vector3(float _x,float _y,float _z):x(_x),y(_y),z(_z){}
-	Vector3 &operator =(const Vector3 &a)
+	T x;
+	T y;
+	T z;
+
+	vector3() {}
+
+	vector3(T _x, T _y, T _z)
 	{
-		x=a.x;
-		y=a.x;
-		z=a.z;
-		return *this;
+		x = _x;
+		y = _y;
+		z = _z;
 	}
-	bool operator==(const Vector3 &a)const
+
+	vector3 operator+(const vector3& right)
 	{
-		return x==a.x&&y==a.y&&z==a.z;
+		return vector3(x + right.x, y + right.y, z + right.z);
 	}
-	bool operator!=(const Vector3 &a)const
+
+	vector3 operator-(const vector3& right)
 	{
-		return x!=a.x||y!=a.y||z!=a.z;
+		return vector3(x - right.x, y - right.y, z - right.z);
 	}
-	void setZero()
+
+	T operator*(const vector3& right)
 	{
-		x=y=z=0;
+		return x * right.x + y * right.y + z * right.z;
 	}
-	Vector3 operator-()const
+
+	vector3 operator*(T val)
 	{
-		return Vector3(-x,-y,-z);
+		return vector3(x * val, y * val, z * val);
 	}
-	Vector3 operator+(const Vector3 &a)const
+
+	T length()
 	{
-		return Vector3(x+a.x,y+a.y,z+a.z);
-	}
-	Vector3 operator-(const Vector3 &a)const
-	{
-		return Vector3(x-a.x,y-a.y,z-a.z);
-	}
-	Vector3 operator*(float a)const
-	{
-		return Vector3(a*x,a*y,a*z);
-	}
-	Vector3 operator/(float a)const
-	{
-		float factor=1.0f/a;
-		return Vector3(factor*x,factor*y,factor*z);
-	}
-	Vector3 operator +=(const Vector3 &a)  
-	{
-		x+=a.x;
-		y+=a.y;
-		z+=a.z;
-		return *this;
-	}
-	Vector3 operator -=(const Vector3 &a)  
-	{
-		x-=a.x;
-		y-=a.y;
-		z-=a.z;
-		return *this;
-	}
-	Vector3 operator *=(float a)  
-	{
-		x*=a;
-		y*=a;
-		z*=a;
-		return *this;
-	}
-	Vector3 operator /=(float a)  
-	{
-		float factor=1.0f/a;
-		x*=factor;
-		y*=factor;
-		z*=factor;
-		return *this;
+		return sqrtf(x * x + y * y + z * z);
 	}
 
 	void normalize()
 	{
-		float lengthSquare=x*x+y*y+z*z;
-		if (lengthSquare>0)
-		{
-			float factor=1.0f/sqrt(lengthSquare);
-			x*=factor;
-			y*=factor;
-			z*=factor;
-		}
+		T l = length();
+		if (l < 0.001f)
+			return ;
+
+		x /= l;
+		y /= l;
+		z /= l;
 	}
 
-	float operator * (const Vector3 &a) const
+	void setZero()
 	{
-		return x*a.x+y*a.y+z*a.z;
+		x = y = z = 0;
 	}
 
-	inline float length()
+	static T distanceSuqare(const vector3& left, const vector3& right)
 	{
-		return sqrt(x*x+y*y+z*z);
-	}
-	
-	inline float distance(const Vector3 &left,const Vector3 &right)
-	{
-		float dx=left.x-right.x;
-		float dy=left.y-right.y;
-		float dz=left.z-right.z;
-		return sqrt(dx*dx+dy*dy+dz*dz);
+		return (left.x - right.x) * (left.x - right.x)
+			+ (left.y - right.y) * (left.y - right.y)
+			+ (left.z - right.z) * (left.z - right.z);
 	}
 
-	float x;
-	float y;
-	float z;
+	static T distance(const vector3& left, const vector3& right)
+	{
+		return sqrtf((left.x - right.x) * (left.x - right.x)
+				+ (left.y - right.y) * (left.y - right.y)
+				+ (left.z - right.z) * (left.z - right.z));
+	}
+
+	static vector3 crossProduct(const vector3& left, const vector3& right)
+	{
+		return vector3(left.y * right.z - left.z * right.y,
+			left.z * right.x - left.x * right.z,
+			left.x * right.y - left.y * right.x);
+	}
 };
 
-
+typedef vector3<float> vec3f;
+typedef vector3<int> vec3i;
