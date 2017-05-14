@@ -17,7 +17,6 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\model.cpp" />
     <ClCompile Include="src\rs_programe.cpp" />
-    <ClCompile Include="src\shader_util.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
     <ClCompile Include="src\texture.cpp" />
     <ClCompile Include="src\triangle.cpp" />
@@ -29,7 +28,6 @@
     <ClInclude Include="src\graphic_context.h" />
     <ClInclude Include="src\model.h" />
     <ClInclude Include="src\rs_programe.h" />
-    <ClInclude Include="src\shader_util.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\texture.h" />
     <ClInclude Include="src\triangle.h" />

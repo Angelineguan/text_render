@@ -51,9 +51,6 @@
     <ClCompile Include="src\color.cpp">
       <Filter>源文件\util</Filter>
     </ClCompile>
-    <ClCompile Include="src\shader_util.cpp">
-      <Filter>源文件\util</Filter>
-    </ClCompile>
     <ClCompile Include="src\model.cpp">
       <Filter>源文件\geometry</Filter>
     </ClCompile>
@@ -81,9 +78,6 @@
       <Filter>源文件\graphic</Filter>
     </ClInclude>
     <ClInclude Include="src\color.h">
-      <Filter>源文件\util</Filter>
-    </ClInclude>
-    <ClInclude Include="src\shader_util.h">
       <Filter>源文件\util</Filter>
     </ClInclude>
     <ClInclude Include="src\model.h">

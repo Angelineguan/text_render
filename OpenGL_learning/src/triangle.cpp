@@ -1,5 +1,4 @@
 #include "triangle.h"
-#include "shader_util.h"
 #include "graphic_context.h"
 
 GLfloat vertex0[]={
