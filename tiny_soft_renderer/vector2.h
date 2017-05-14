@@ -76,3 +76,18 @@ public:
 typedef vector2<float> vec2f;
 typedef vector2<int> vec2i;
 
+template<typename T>
+class Size
+{
+public:
+	T width;
+	T height;
+
+	Size() {};
+	~Size() {};
+	Size(T w, T h) : width(w), height(h) {};
+};
+
+
+typedef Size<float>  SizeF;
+typedef Size<int>  SizeI;

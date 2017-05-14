@@ -85,6 +85,7 @@
     <ClInclude Include="util.h" />
     <ClInclude Include="vector2.h" />
     <ClInclude Include="vector3.h" />
+    <ClInclude Include="vector4.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="draw_triangle_test.cpp" />
@@ -95,6 +96,7 @@
     <ClCompile Include="util.cpp" />
     <ClCompile Include="vector2.cpp" />
     <ClCompile Include="vector3.cpp" />
+    <ClCompile Include="vector4.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

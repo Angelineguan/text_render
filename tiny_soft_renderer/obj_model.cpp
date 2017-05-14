@@ -30,14 +30,16 @@ ObjModel::ObjModel(const char *filename)
 			for (int i = 0; i<2; i++) iss >> uv.x >> uv.y;
             m_uv.push_back(uv);
         }  else if (!line.compare(0, 2, "f ")) {
-            std::vector<Vertex> face;
-			Vertex tri;
+			//f 24 / 1 / 24 25 / 2 / 25 26 / 3 / 26
+            std::vector<VertexIndex> face;
+			VertexIndex tri;
             iss >> trash;
 			while (iss >> tri.vertexIndex >> trash >> tri.uvIndex >> trash >> tri.normalIndex) {
 				tri.vertexIndex--;	// in wavefront obj all indices start at 1, not zero
 				tri.uvIndex--;	// in wavefront obj all indices start at 1, not zero
 				tri.normalIndex--;	// in wavefront obj all indices start at 1, not zero
 				face.push_back(tri);
+				m_index.push_back(tri.vertexIndex);
             }
 			m_faces.push_back(face);
         }
@@ -60,9 +62,9 @@ int ObjModel::nfaces()
     return (int)m_faces.size();
 }
 
-std::vector<Vertex> ObjModel::face(int idx)
+std::vector<VertexIndex> ObjModel::face(int idx)
 {
-	std::vector<Vertex> face;
+	std::vector<VertexIndex> face;
     for (int i=0; i<(int)m_faces[idx].size(); i++) face.push_back(m_faces[idx][i]);
     return face;
 }
@@ -133,7 +135,7 @@ void ObjModel::drawModel(TGAImage* image, ModelRenderMode mode, void* userdata)
 		vec2f screenCoords[3];
 		vec3f worldCoords[3];
 		vec3f normalCoords[3];
-		std::vector<Vertex> tempFace = face(i);
+		std::vector<VertexIndex> tempFace = face(i);
 		vec3f v;
 		for (int j = 0; j < 3; j++)
 		{
