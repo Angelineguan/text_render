@@ -13,7 +13,6 @@ int main()
 	Triangle* triange1 = new Triangle(vertex1, 18);
 
 
-	Model* model = new Model("obj/african_head/");
 	vec3f offset;
 	offset.setZero();
 	 
@@ -58,6 +57,7 @@ int main()
 		triange->setIsDrawOutline(true);
 		triange->draw();
 		//////////////////////////////////////////////////////////////////////////
+
 		glfwSwapBuffers(drawContext);
 	}		
 	delete triange1;

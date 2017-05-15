@@ -1,6 +1,7 @@
 #pragma  once
 #include "stdafx.h"
 #include "rs_programe.h"
+
 class GraphicContext
 {
 public:
@@ -11,6 +12,9 @@ public:
 	static void freeGraphicContext();
 
 	void setCallbackCollections();
+	RsProgram* getModelPrograme();
+
+	RsProgram* getTrianglePrograme();
 
 protected:
 	GraphicContext(int width, int height);

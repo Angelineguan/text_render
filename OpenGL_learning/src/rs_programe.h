@@ -70,8 +70,8 @@ public:
 
 	void setVertexBuffer(GLuint loc, int size, GLvoid* val)
 	{
-		glEnableVertexAttribArray(loc);
 		glVertexAttribPointer(loc,size,GL_FLOAT,GL_FALSE,size*sizeof(float),val);
+		glEnableVertexAttribArray(loc);
 	}
 
 private:

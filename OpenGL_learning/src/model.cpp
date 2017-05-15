@@ -4,52 +4,37 @@
 #include <sstream>
 #include "graphic_context.h"
 
-const GLchar vertexShaderSrc[] = {
-	"#version 330 core						\n"
-	"in vec3 vertexPos;						\n"
-	"void main()							\n"
-	"{										\n"
-	"	gl_Position=vec4(vertexPos,1.0f);	\n"
-	"}										\n"
-	"\0										\n"
-};
-
-const GLchar fragmentShaderSrc[] = {
-	"uniform vec4 vertexColor;						\n"
-	"out vec4 color;							\n"
-	"void main()								\n"
-	"{											\n"
-	"	color=vertexColor;							\n"
-	"}											\n"
-	"\0											\n"
-};
-
 Model::Model(const char *filename) :m_programe(NULL), m_positionLoc(SIZE_MAX),
 			m_colorLoc(SIZE_MAX)
 {
 	loadObjModel(filename);
 
+	glGenVertexArrays(1, &m_vao);
 	glGenBuffers(1, &m_vbo); 
-	glBindBuffer(GL_VERTEX_ARRAY, m_vbo);
-	glBufferData(GL_VERTEX_ARRAY, sizeof(vec3f) * m_verts.size(), &m_verts, GL_STATIC_DRAW);
-
 	glGenBuffers(1, &m_ibo);
+
+	glBindVertexArray(m_vao);
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(vec3f)*m_ptNum, m_pts, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vec3f) * m_verts.size(), (void*)&m_verts[0], GL_STATIC_DRAW);
+
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * m_vertIndex.size(), &m_vertIndex, GL_STATIC_DRAW);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * m_indexNum, m_index, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * m_vertIndex.size(), (void*)&m_vertIndex[0], GL_STATIC_DRAW);
 
-	GraphicContext* context = GraphicContext::instance();
-	if (context->m_modelPrograme == NULL)
-	{
-		context->m_modelPrograme = new RsProgram(vertexShaderSrc, fragmentShaderSrc);
-	}
-
-	m_programe = context->m_modelPrograme;
-
+	m_programe = GraphicContext::instance()->getModelPrograme();
 	m_positionLoc = m_programe->getAttributeLoc("vertexPos");
 	assert(m_positionLoc != SIZE_MAX);
+	glVertexAttribPointer(m_positionLoc, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+	glEnableVertexAttribArray(m_positionLoc);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glBindVertexArray(0);
 
 	m_colorLoc = m_programe->getUniformLoc("vertexColor");
-	assert(m_colorLoc != SIZE_MAX);
+
 }
 
 void Model::loadObjModel(const char* filename)
@@ -101,6 +86,21 @@ void Model::loadObjModel(const char* filename)
 		}
 	}
 
+	m_pts = new vec3f[m_verts.size()];
+	m_ptNum = m_verts.size();
+	for (unsigned int i = 0; i < m_verts.size();i++)
+	{
+		m_pts[i] = m_verts[i];
+	}
+
+	m_index = new GLuint[m_vertIndex.size()];
+	m_indexNum = m_vertIndex.size();
+
+	for (unsigned int i = 0; i < m_vertIndex.size(); i++)
+	{
+		m_index[i] = m_vertIndex[i];
+	}
+
 	std::string diffuseTexfile(filename);
 	diffuseTexfile = diffuseTexfile + std::string("african_head_diffuse.jpg");
 	m_diffusemap = new Texture((char*)diffuseTexfile.c_str(), TextureWrap_CLAMP_TO_EDGE, TextureFilter_NEAREST);
@@ -112,4 +112,24 @@ void Model::loadObjModel(const char* filename)
 	std::string specTexfile(filename);
 	specTexfile = specTexfile + std::string("african_head_spec.jpg");
 	m_specularmap = new Texture((char*)specTexfile.c_str(), TextureWrap_CLAMP_TO_EDGE, TextureFilter_NEAREST);
+}
+
+void Model::draw(DrawContext* context)
+{
+	m_programe->usePrograme();
+
+	glBindVertexArray(m_vao);
+	glDrawElements(GL_TRIANGLES, m_indexNum, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}
+
+
+Model::~Model()
+{
+	delete[] m_pts;
+	delete[] m_index;
+
+	glDeleteVertexArrays(1,&m_vao);
+	glDeleteBuffers(1, &m_vbo);
+	glDeleteBuffers(1, &m_ibo);
 }

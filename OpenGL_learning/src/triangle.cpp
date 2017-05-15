@@ -19,36 +19,9 @@ GLfloat vertex1[]={
 	1.0f, 0.5f,  -0.5
 };
 
-GLchar* vertexShader_drawTriangle = {
-	"#version 330 core						\n"
-	"in vec3 position;						\n"
-	"uniform vec3 offset;						\n"
-	"void main()							\n"
-	"{										\n"
-	"	gl_Position=vec4(0.5*position.x+offset.x,0.5*position.y+offset.y,0.5*position.z+offset.z,1.0);		\n"
-	"}										\n"
-	"\0										\n"
-};
-
-GLchar*fragmentShader_drawTriangle = {
-	"uniform vec4 outColor;						\n"
-	"out vec4 color;							\n"
-	//	"uniform vec3 changeColor;					\n"
-	"void main()								\n"
-	"{										\n"
-	"	color=vec4(outColor.x,outColor.y,outColor.z,outColor.w);						\n"
-	"}										\n"
-};
-
-
 Triangle::Triangle( GLfloat* vertex, size_t num )
 {
-	GraphicContext* context = GraphicContext::instance();
-	if (context->m_trianglePrograme == NULL)
-	{
-		context->m_trianglePrograme = new RsProgram(vertexShader_drawTriangle, fragmentShader_drawTriangle);
-	}
-	m_programe = context->m_trianglePrograme;
+	m_programe = GraphicContext::instance()->getTrianglePrograme();
 	glGenVertexArrays(1, &m_vaoHandle);
 	glBindVertexArray(m_vaoHandle);
 	glGenBuffers(1, &m_vboHandle);
@@ -99,7 +72,6 @@ void Triangle::draw()
 	blue += 0.0005f;
 	m_innerColor = Color_make(sinf(red), cosf(green), sinf(blue), 1.0f);
 
-	float color[4] = { m_innerColor.red,m_innerColor.blue,m_innerColor.green,m_innerColor.alpha};
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	m_programe->setUniform4fv(colorPosition,&m_innerColor.red);
 	glDrawArrays(GL_TRIANGLES, 0 ,6);
