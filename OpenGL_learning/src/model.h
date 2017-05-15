@@ -31,10 +31,6 @@ private:
 	std::vector<vec3f> m_verts;
 	std::vector<GLuint> m_vertIndex;
 
-	vec3f* m_pts;
-	int m_ptNum;
-	GLuint* m_index;
-	int m_indexNum;
 	std::vector<vec3f> m_norms;
 	std::vector<vec2f> m_uvs;
 	std::vector<GLuint > m_normsIndex;

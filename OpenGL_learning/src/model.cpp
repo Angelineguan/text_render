@@ -16,12 +16,10 @@ Model::Model(const char *filename) :m_programe(NULL), m_positionLoc(SIZE_MAX),
 	glBindVertexArray(m_vao);
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(vec3f)*m_ptNum, m_pts, GL_STATIC_DRAW);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vec3f) * m_verts.size(), (void*)&m_verts[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vec3f) * m_verts.size(), &m_verts[0], GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
-	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * m_indexNum, m_index, GL_STATIC_DRAW);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * m_vertIndex.size(), (void*)&m_vertIndex[0], GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * m_vertIndex.size(), &m_vertIndex[0], GL_STATIC_DRAW);
 
 	m_programe = GraphicContext::instance()->getModelPrograme();
 	m_positionLoc = m_programe->getAttributeLoc("vertexPos");
@@ -86,21 +84,6 @@ void Model::loadObjModel(const char* filename)
 		}
 	}
 
-	m_pts = new vec3f[m_verts.size()];
-	m_ptNum = m_verts.size();
-	for (unsigned int i = 0; i < m_verts.size();i++)
-	{
-		m_pts[i] = m_verts[i];
-	}
-
-	m_index = new GLuint[m_vertIndex.size()];
-	m_indexNum = m_vertIndex.size();
-
-	for (unsigned int i = 0; i < m_vertIndex.size(); i++)
-	{
-		m_index[i] = m_vertIndex[i];
-	}
-
 	std::string diffuseTexfile(filename);
 	diffuseTexfile = diffuseTexfile + std::string("african_head_diffuse.jpg");
 	m_diffusemap = new Texture((char*)diffuseTexfile.c_str(), TextureWrap_CLAMP_TO_EDGE, TextureFilter_NEAREST);
@@ -119,16 +102,12 @@ void Model::draw(DrawContext* context)
 	m_programe->usePrograme();
 
 	glBindVertexArray(m_vao);
-	glDrawElements(GL_TRIANGLES, m_indexNum, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, m_vertIndex.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
 
-
 Model::~Model()
 {
-	delete[] m_pts;
-	delete[] m_index;
-
 	glDeleteVertexArrays(1,&m_vao);
 	glDeleteBuffers(1, &m_vbo);
 	glDeleteBuffers(1, &m_ibo);
