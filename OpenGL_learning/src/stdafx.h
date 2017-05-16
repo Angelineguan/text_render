@@ -3,6 +3,7 @@
 #include <math.h>
 #include <map>
 #include <vector>
+#include <direct.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <assert.h>

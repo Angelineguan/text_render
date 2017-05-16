@@ -109,11 +109,13 @@ RsProgram* GraphicContext::getModelPrograme()
 		GLchar vertexShaderSrc[] = {
 			"#version 330 core						\n"
 			"in vec3 vertexPos;						\n"
+			"in vec4 inVertexColor;					\n"
+			"out vec4 outVertexColor;				\n"
 			"void main()							\n"
 			"{										\n"
-			//	"	gl_Position=vec4(vertexPos.x * 2.0f,vertexPos.y * 2.0f,vertexPos.z * 2.0f,1.0f);	\n"
-			"	gl_Position=vec4(vertexPos.x * 0.5f,vertexPos.y * 0.5f,vertexPos.z * 0.5f,1.0f);	\n"
+			//"	gl_Position=vec4(vertexPos.x * 0.5f,vertexPos.y * 0.5f,vertexPos.z * 0.5f,1.0f);	\n"
 			"	gl_Position=vec4(vertexPos,1.0f);	\n"
+			"	outVertexColor = inVertexColor;		\n"
 			"}										\n"
 			"\0										\n"
 		};
@@ -121,10 +123,12 @@ RsProgram* GraphicContext::getModelPrograme()
 		GLchar fragmentShaderSrc[] = {
 			"uniform vec4 vertexColor;						\n"
 			"out vec4 color;							\n"
+			"in vec4 outVertexColor;				\n"
 			"void main()								\n"
 			"{											\n"
-		//	"	color=vertexColor;							\n"
-			"	color = vec4(1.0f,0.5f,0.0f,1.0f);		\n"
+			//	"	color=vertexColor;							\n"
+		//	"	color = outVertexColor;					\n"
+			"	color = vec4(1.0f,1.0f,1.0f,1.0f);					\n"
 			"}											\n"
 			"\0											\n"
 		};

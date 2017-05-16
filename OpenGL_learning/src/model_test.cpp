@@ -8,7 +8,9 @@ int main()
 {
 	DrawContext* drawContext = GraphicContext::getContext();
 
-	Model* model = new Model("obj/african_head/");
+
+	_chdir("obj/african_head/");
+	Model* model = new Model("african_head.obj");
 
 	int width, height;
 		

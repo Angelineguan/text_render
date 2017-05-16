@@ -15,8 +15,9 @@ Model::Model(const char *filename) :m_programe(NULL), m_positionLoc(SIZE_MAX),
 
 	glBindVertexArray(m_vao);
 
+	int vertexSize = sizeof(Vertex);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vec3f) * m_verts.size(), &m_verts[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_vertsWithColor.size(), &m_vertsWithColor[0], GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * m_vertIndex.size(), &m_vertIndex[0], GL_STATIC_DRAW);
@@ -24,15 +25,16 @@ Model::Model(const char *filename) :m_programe(NULL), m_positionLoc(SIZE_MAX),
 	m_programe = GraphicContext::instance()->getModelPrograme();
 	m_positionLoc = m_programe->getAttributeLoc("vertexPos");
 	assert(m_positionLoc != SIZE_MAX);
-	glVertexAttribPointer(m_positionLoc, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(m_positionLoc, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)0);
 	glEnableVertexAttribArray(m_positionLoc);
+
+	m_colorLoc = m_programe->getAttributeLoc("inVertexColor");
+	glVertexAttribPointer(m_colorLoc, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)3);
+	glEnableVertexAttribArray(m_colorLoc);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glBindVertexArray(0);
-
-	m_colorLoc = m_programe->getUniformLoc("vertexColor");
-
 }
 
 void Model::loadObjModel(const char* filename)
@@ -40,7 +42,6 @@ void Model::loadObjModel(const char* filename)
 	std::ifstream in;
 
 	std::string objfilename(filename);
-	objfilename = objfilename + std::string("african_head.obj");
 
 	in.open(objfilename, std::ifstream::in);
 	if (in.fail()) return;
@@ -52,8 +53,14 @@ void Model::loadObjModel(const char* filename)
 		if (!line.compare(0, 2, "v ")) {
 			iss >> trash;
 			vec3f v;
+			Vertex vertex;
 			for (int i = 0; i < 3; i++) iss >> v.x >> v.y >> v.z;
-			m_verts.push_back(v);
+			{
+				vertex.pos = v;
+				vertex.color = Random_Color();
+				m_verts.push_back(v);
+				m_vertsWithColor.push_back(vertex);
+			}
 		}
 		else if (!line.compare(0, 3, "vn ")) {
 			iss >> trash >> trash;

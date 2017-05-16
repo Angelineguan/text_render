@@ -1,4 +1,5 @@
 #pragma once
+#include "stdafx.h"
 
 struct Color
 {
@@ -13,4 +14,6 @@ struct Color
 };
 
 Color Color_make(float r, float g, float b, float a);
+
+Color Random_Color();
 

@@ -10,6 +10,11 @@ struct VertexIndex
 	GLuint  normalIndex;
 };
 
+struct Vertex
+{
+	vec3f pos;
+	Color color;
+};
 
 class Model
 {
@@ -29,6 +34,7 @@ private:
 	GLuint m_vao;
 
 	std::vector<vec3f> m_verts;
+	std::vector<Vertex> m_vertsWithColor;
 	std::vector<GLuint> m_vertIndex;
 
 	std::vector<vec3f> m_norms;
