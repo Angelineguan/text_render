@@ -16,6 +16,8 @@ public:
 
 	RsProgram* getTrianglePrograme();
 
+	static void saveScreenToBmp(int x, int y, int width, int height);
+
 protected:
 	GraphicContext(int width, int height);
 

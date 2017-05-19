@@ -29,18 +29,24 @@ FrameBuffer::FrameBuffer( int width, int height ) : m_width(width), m_height(hei
 FrameBuffer::~FrameBuffer() 
 {
 	glDeleteFramebuffers(1,&m_fboHandle);
+	glDeleteBuffers(1, &m_colorbufferhandle);
+	glDeleteBuffers(1, &m_depthbufferhandle);
 }
 
 void FrameBuffer::bindFrameBuffer() {
 	glBindFramebuffer(GL_FRAMEBUFFER,m_fboHandle);
 }
 
+void FrameBuffer::unbindFrameBuffer()
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+
 void FrameBuffer::bindColorBuffer() {
-	glBindFramebuffer(GL_FRAMEBUFFER,m_fboHandle);
 	glBindTexture(GL_TEXTURE_2D,m_colorbufferhandle);
 }
 
 void FrameBuffer::bindDepthBuffer() {
-	glBindFramebuffer(GL_FRAMEBUFFER,m_fboHandle);
 	glBindTexture(GL_RENDERBUFFER,m_depthbufferhandle);
 }

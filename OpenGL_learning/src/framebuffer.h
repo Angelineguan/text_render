@@ -10,6 +10,8 @@ public:
 
 	void bindFrameBuffer();
 
+	void unbindFrameBuffer();
+
 	void bindColorBuffer();
 
 	void bindDepthBuffer();

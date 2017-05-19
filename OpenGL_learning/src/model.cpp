@@ -15,7 +15,6 @@ Model::Model(const char *filename) :m_programe(NULL), m_positionLoc(SIZE_MAX),
 
 	glBindVertexArray(m_vao);
 
-	int vertexSize = sizeof(Vertex);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_vertsWithColor.size(), &m_vertsWithColor[0], GL_STATIC_DRAW);
 

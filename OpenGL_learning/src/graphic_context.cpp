@@ -1,5 +1,7 @@
 #include "graphic_context.h"
 
+#include "tgaimage.h"
+
 static GraphicContext* g_context = NULL;
 
 GraphicContext* GraphicContext::instance()
@@ -67,7 +69,7 @@ DrawContext* GraphicContext::getContext()
 {
 	if (g_context == NULL)
 	{
-		g_context = new GraphicContext(800, 600);
+		g_context = new GraphicContext(800, 800);
 	}
 	return g_context->m_context;
 }
@@ -76,7 +78,8 @@ RsProgram* GraphicContext::getTrianglePrograme()
 {
 	if (m_trianglePrograme == NULL)
 	{
-		GLchar* vertexShader_drawTriangle = {
+		GLchar* vertexShader_drawTriangle =
+		{
 			"#version 330 core						\n"
 			"in vec3 position;						\n"
 			"uniform vec3 offset;						\n"
@@ -87,7 +90,8 @@ RsProgram* GraphicContext::getTrianglePrograme()
 			"\0										\n"
 		};
 
-		GLchar*fragmentShader_drawTriangle = {
+		GLchar* fragmentShader_drawTriangle = 
+		{
 			"uniform vec4 outColor;						\n"
 			"out vec4 color;							\n"
 			//	"uniform vec3 changeColor;					\n"
@@ -106,7 +110,8 @@ RsProgram* GraphicContext::getModelPrograme()
 {
 	if (m_modelPrograme == NULL)
 	{
-		GLchar vertexShaderSrc[] = {
+		GLchar vertexShaderSrc[] = 
+		{
 			"#version 330 core						\n"
 			"in vec3 vertexPos;						\n"
 			"in vec4 inVertexColor;					\n"
@@ -120,15 +125,14 @@ RsProgram* GraphicContext::getModelPrograme()
 			"\0										\n"
 		};
 
-		GLchar fragmentShaderSrc[] = {
-			"uniform vec4 vertexColor;						\n"
+		GLchar fragmentShaderSrc[] = 
+		{
 			"out vec4 color;							\n"
 			"in vec4 outVertexColor;				\n"
 			"void main()								\n"
 			"{											\n"
-			//	"	color=vertexColor;							\n"
-		//	"	color = outVertexColor;					\n"
-			"	color = vec4(1.0f,1.0f,1.0f,1.0f);					\n"
+			"	color = outVertexColor;					\n"
+			//"	color = vec4(1.0f,1.0f,1.0f,1.0f);					\n"
 			"}											\n"
 			"\0											\n"
 		};
@@ -136,4 +140,16 @@ RsProgram* GraphicContext::getModelPrograme()
 	}
 
 	return m_modelPrograme;
+}
+
+void GraphicContext::saveScreenToBmp( int x, int y, int width, int height )
+{
+	//TGAImage image = TGAImage(width, height, TGAImage::RGBA);
+	TGAImage image = TGAImage(width, height, TGAImage::GRAYSCALE);
+	image.clear();
+
+	//glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, image.buffer());
+	glReadPixels(x, y, width, height, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, image.buffer());
+	image.flipVertically(); // i want to have the origin at the left bottom corner of the image
+	image.writeTgaFile("model34.tga",false);
 }

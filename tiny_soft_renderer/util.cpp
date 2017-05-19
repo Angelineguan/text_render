@@ -59,8 +59,6 @@ void drawLine(vec2f p0, vec2f p1, TGAImage* image, TGAColor color)
 	}
 }
 
-
-
 //http://www.sunshine2k.de/coding/java/PointInTriangle/PointInTriangle.html
 //this is the artical point in triangle "Crossproduct Side Algorithm"
 bool pointInTriangle(vec2f p1, vec2f p2, vec2f p3, vec2f p)
@@ -308,7 +306,3 @@ vec3i world2Screen(vec3f worldPos, int screenWidth, int screenHeight)
 	screenPos.z = (int)(worldPos.z + 0.5f);
 	return screenPos;
 }
-
-
-
-
