@@ -14,13 +14,18 @@
     <ClCompile Include="src\callback_collections.cpp" />
     <ClCompile Include="src\framebuffer.cpp" />
     <ClCompile Include="src\graphic_context.cpp" />
-    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\model.cpp" />
+    <ClCompile Include="src\model_test.cpp" />
     <ClCompile Include="src\rs_programe.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
     <ClCompile Include="src\texture.cpp" />
+    <ClCompile Include="src\tgaimage.cpp" />
     <ClCompile Include="src\triangle.cpp" />
     <ClCompile Include="src\color.cpp" />
+    <ClCompile Include="src\util_type.cpp" />
+    <ClCompile Include="src\vector2.cpp" />
+    <ClCompile Include="src\vector3.cpp" />
+    <ClCompile Include="src\vector4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\callback_collections.h" />
@@ -30,8 +35,13 @@
     <ClInclude Include="src\rs_programe.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\texture.h" />
+    <ClInclude Include="src\tgaimage.h" />
     <ClInclude Include="src\triangle.h" />
     <ClInclude Include="src\color.h" />
+    <ClInclude Include="src\util_type.h" />
+    <ClInclude Include="src\vector2.h" />
+    <ClInclude Include="src\vector3.h" />
+    <ClInclude Include="src\vector4.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{351DE219-ED02-4ADD-87FC-734AF6407568}</ProjectGuid>
@@ -43,7 +53,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -70,7 +80,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\GYQ\Desktop\Text_Rendering\OpenGL_learning\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\guanyq\Desktop\text_render\OpenGL_learning\gdal\include;C:\Users\guanyq\Desktop\text_render\OpenGL_learning\vendors\expat\include;C:\Users\guanyq\Desktop\text_render\OpenGL_learning\vendors\proj\include;C:\Users\GYQ\Desktop\Text_Rendering\OpenGL_learning\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

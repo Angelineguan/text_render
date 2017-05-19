@@ -32,21 +32,20 @@ int main()
 	{
 
 		fbo->bindFrameBuffer();
-		//fbo->bindColorBuffer();
-		fbo->bindDepthBuffer();
+		fbo->bindColorBuffer();
 
 		glScissor(0, 0, 800, 800);
 		glViewport(0, 0, 800, 800);
 		glClearColor(1.0f, 0, 0, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		model->draw(drawContext);
+		fbo->unbindFrameBuffer();
 
 		glScissor(100, 100, 400, 400);
 		glViewport(100, 100, 400, 400);
 		glClearColor(0, 1,0,1.0f);
 	//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		model->draw(drawContext);
-		fbo->unbindFrameBuffer();
 
 		glScissor(500, 500, 200, 200);
 		glViewport(500, 500, 200, 200);
@@ -59,8 +58,6 @@ int main()
 
 	}
 	fbo->bindFrameBuffer();
-//	fbo->bindColorBuffer();
-	fbo->bindDepthBuffer();
 	GraphicContext::saveScreenToBmp(0, 0, 800, 800);
 	GraphicContext::freeGraphicContext();
 	return 0;
