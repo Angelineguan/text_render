@@ -198,7 +198,7 @@ RsProgram* GraphicContext::getModelProgrameInstance()
 //			"out float particleRadius;				\n"
 //			"void main()							\n"
 //			"{										\n"
-//			"	gl_Position = vec4(inParticleCenter,0); 		\n"
+//			"	gl_Position = vec4(inParticleCenter,1.0f); 		\n"
 //			"	particleCenter = inParticleCenter; 		\n"
 //			"	particleRadius = inParticleRadius; 		\n"
 //			"	particleColor = inParticleColor; 		\n"
@@ -238,7 +238,7 @@ RsProgram* GraphicContext::getParticleProgrameInstance()
 			"in vec3 inParticleCenter;				\n"
 			"void main()							\n"
 			"{										\n"
-			"	gl_Position = vec4(inParticleCenter,0.0f); 		\n"
+			"	gl_Position = vec4(inParticleCenter,1.0f); 		\n"
 			"}										\n"
 			"\0										\n"
 		};

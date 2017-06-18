@@ -23,13 +23,14 @@ ParticleSystem::ParticleSystem(int count, float gravity) : m_count(count), m_gra
 	m_particleRadiusLoc = m_programe->getAttributeLoc("inParticleRadius");
 
 	glGenVertexArrays(1, &m_vao);
+	glGenBuffers(1, &m_vbo);
+
 	glBindVertexArray(m_vao);
 
-	glGenBuffers(1, &m_vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 	glBufferData(GL_ARRAY_BUFFER, m_count * sizeof(vec3f), m_points, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(m_particleCenterLoc, 3, GL_FLOAT, GL_FALSE, sizeof(vec3f), (GLvoid*)2);
+	glVertexAttribPointer(m_particleCenterLoc, 3, GL_FLOAT, GL_FALSE, sizeof(vec3f), (GLvoid*)0);
 	glEnableVertexAttribArray(m_particleCenterLoc);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
