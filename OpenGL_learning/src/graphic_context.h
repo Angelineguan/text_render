@@ -1,6 +1,5 @@
 #pragma  once
 #include "stdafx.h"
-#include "rs_programe.h"
 
 class GraphicContext
 {
@@ -11,10 +10,19 @@ public:
 
 	static void freeGraphicContext();
 
+	void setSize(vec2i size);
+
 	void setCallbackCollections();
+
 	RsProgram* getModelPrograme();
 
+	RsProgram* getModelProgrameInstance();
+
 	RsProgram* getTrianglePrograme();
+
+	RsProgram* getParticleProgrameInstance();
+
+
 
 	static void saveScreenToBmp(int x, int y, int width, int height);
 
@@ -26,6 +34,8 @@ protected:
 public:
 	RsProgram* m_trianglePrograme;
 	RsProgram* m_modelPrograme;
+	RsProgram* m_modelProgrameInstance;
+	RsProgram* m_particleProgrameInstance;
 
 private:
 	DrawContext* m_context;

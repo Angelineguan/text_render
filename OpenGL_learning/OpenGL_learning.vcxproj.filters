@@ -54,9 +54,6 @@
     <ClCompile Include="src\model.cpp">
       <Filter>源文件\geometry</Filter>
     </ClCompile>
-    <ClCompile Include="src\model_test.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="src\tgaimage.cpp">
       <Filter>源文件\util</Filter>
     </ClCompile>
@@ -71,6 +68,12 @@
     </ClCompile>
     <ClCompile Include="src\util_type.cpp">
       <Filter>源文件\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\particle_system.cpp">
+      <Filter>源文件\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\particle_system_test.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +118,9 @@
     </ClInclude>
     <ClInclude Include="src\util_type.h">
       <Filter>源文件\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\particle_system.h">
+      <Filter>源文件\geometry</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

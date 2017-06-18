@@ -4,7 +4,6 @@
 #include "model.h"
 #include "framebuffer.h"
 
-
 int main()
 {
 	_chdir("obj/african_head/");
@@ -28,36 +27,68 @@ int main()
 	glDepthRange(0.1f, 0.4f);
 	glDepthRange(0.7f, 0.9f);
 
+	//while (!glfwWindowShouldClose(drawContext))
+	//{
+
+	//	fbo->bindFrameBuffer();
+	//	fbo->bindColorBuffer();
+
+	//	glScissor(0, 0, 800, 800);
+	//	glViewport(0, 0, 800, 800);
+	//	glClearColor(1.0f, 0, 0, 1.0f);
+	//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//	model->draw(drawContext,true);
+	//	fbo->unbindFrameBuffer();
+
+	//	glScissor(100, 100, 400, 400);
+	//	glViewport(100, 100, 400, 400);
+	//	glClearColor(0, 1,0,1.0f);
+	////	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//	model->draw(drawContext, true);
+	////	model->draw(drawContext);
+
+	//	glScissor(500, 500, 200, 200);
+	//	glViewport(500, 500, 200, 200);
+	//	glClearColor(0, 0, 1, 1.0f);
+	//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	////	model->draw(drawContext);
+	//	model->draw(drawContext, true);
+
+
+	//	glfwPollEvents();
+	//	glfwSwapBuffers(drawContext);
+
+	//}
+
 	while (!glfwWindowShouldClose(drawContext))
 	{
+		vec2i size;
 
-		fbo->bindFrameBuffer();
-		fbo->bindColorBuffer();
+		glfwGetWindowSize(GraphicContext::instance()->getContext(), &size.x, &size.y);
+		glScissor(0, 0, size.x, size.y);
+		glViewport(0, 0, size.x, size.y);
+		glClearColor(0.0f, 1.0f, 0, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glScissor(0, 0, 800, 800);
+
 		glViewport(0, 0, 800, 800);
 		glClearColor(1.0f, 0, 0, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		model->draw(drawContext);
-		fbo->unbindFrameBuffer();
+		//model->draw(drawContext, vec2f(0.3f, 0.2f));
+		//model->draw(drawContext, vec2f(-0.3f, -0.2f));
 
-		glScissor(100, 100, 400, 400);
-		glViewport(100, 100, 400, 400);
-		glClearColor(0, 1,0,1.0f);
-	//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		model->draw(drawContext);
+		double timeBefore = glfwGetTime();
 
-		glScissor(500, 500, 200, 200);
-		glViewport(500, 500, 200, 200);
-		glClearColor(0, 0, 1, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		model->draw(drawContext);
+		//model->draw(drawContext, true);
+		model->drawInstance(drawContext);
+		double timeAfter= glfwGetTime();
 
+	//	cout << "time cost perFrame is " << (timeAfter - timeBefore )* 1000<< endl;
 		glfwPollEvents();
 		glfwSwapBuffers(drawContext);
 
 	}
-	fbo->bindFrameBuffer();
 	GraphicContext::saveScreenToBmp(0, 0, 800, 800);
 	GraphicContext::freeGraphicContext();
 	return 0;

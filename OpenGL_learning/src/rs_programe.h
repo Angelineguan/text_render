@@ -24,7 +24,10 @@ public:
 	void setUniform1f(GLuint loc, float value) {
 		glUniform1f(loc, value);
 	}
-
+	
+	void setUniform2fv(GLuint loc, vec2f vec) {
+		glUniform2f(loc, vec.x, vec.y);
+	}
 	void setUniform3fv(GLuint loc, float* vec) {
 		glUniform3fv(loc, 3, vec);
 	}

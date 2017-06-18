@@ -2,7 +2,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "graphic_context.h"
+#include<string.h>
+#include <glm/glm.hpp>
+using namespace std;
 
 Model::Model(const char *filename) :m_programe(NULL), m_positionLoc(SIZE_MAX),
 			m_colorLoc(SIZE_MAX)
@@ -21,7 +23,8 @@ Model::Model(const char *filename) :m_programe(NULL), m_positionLoc(SIZE_MAX),
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * m_vertIndex.size(), &m_vertIndex[0], GL_STATIC_DRAW);
 
-	m_programe = GraphicContext::instance()->getModelPrograme();
+	//m_programe = GraphicContext::instance()->getModelPrograme();
+	m_programe = GraphicContext::instance()->getModelProgrameInstance();
 	m_positionLoc = m_programe->getAttributeLoc("vertexPos");
 	assert(m_positionLoc != SIZE_MAX);
 	glVertexAttribPointer(m_positionLoc, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)0);
@@ -33,7 +36,23 @@ Model::Model(const char *filename) :m_programe(NULL), m_positionLoc(SIZE_MAX),
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+	for (int x = 0; x <= 100000; x += 1)
+	{
+		m_offsetVec[x] = { rand()%100 / 100.0f , rand() % 100 / 100.0f };
+	}
+
+	glGenBuffers(1, &m_offsetVbo);
+	glBindBuffer(GL_ARRAY_BUFFER, m_offsetVbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vec2f) * 30000, &m_offsetVec[0], GL_STATIC_DRAW);
+	m_offset = m_programe->getAttributeLoc("inOffset");
+	glVertexAttribPointer(m_offset, 2, GL_FLOAT, GL_FALSE, sizeof(vec2f), (GLvoid*)0);
+	glEnableVertexAttribArray(m_offset);
+
+	glVertexAttribDivisor(m_offset, 100);
+
+//	m_offset = m_programe->getUniformLoc("inOffset");
 	glBindVertexArray(0);
+
 }
 
 void Model::loadObjModel(const char* filename)
@@ -111,6 +130,39 @@ void Model::draw(DrawContext* context)
 	glDrawElements(GL_TRIANGLES, m_vertIndex.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
+
+void Model::draw(DrawContext* context, vec2f offset)
+{
+	m_programe->usePrograme();
+
+	glBindVertexArray(m_vao);
+	m_programe->setUniform2fv(m_offset, offset);
+	glDrawElements(GL_TRIANGLES, m_vertIndex.size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}
+
+void Model::draw(DrawContext* context, bool offset)
+{
+	m_programe->usePrograme();
+	glBindVertexArray(m_vao);
+
+	for (int i = 0; i < 10000; i++)
+	{
+		m_programe->setUniform2fv(m_offset, m_offsetVec[i]);
+		glDrawElements(GL_TRIANGLES, m_vertIndex.size(), GL_UNSIGNED_INT, 0);
+	}
+	glBindVertexArray(0);
+}
+
+void Model::drawInstance(DrawContext* context)
+{
+	m_programe->usePrograme();
+	glBindVertexArray(m_vao);
+
+	glDrawElementsInstanced(GL_TRIANGLES, m_vertIndex.size(), GL_UNSIGNED_INT, 0, 30000);
+	glBindVertexArray(0);
+}
+
 
 Model::~Model()
 {

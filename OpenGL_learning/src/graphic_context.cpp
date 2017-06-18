@@ -47,6 +47,8 @@ GraphicContext::GraphicContext(int width, int height)
 
 	m_trianglePrograme = NULL; 
 	m_modelPrograme = NULL;
+	m_modelProgrameInstance = NULL;
+	m_particleProgrameInstance = NULL;
 }
 
 GraphicContext::~GraphicContext()
@@ -115,11 +117,12 @@ RsProgram* GraphicContext::getModelPrograme()
 			"#version 330 core						\n"
 			"in vec3 vertexPos;						\n"
 			"in vec4 inVertexColor;					\n"
+			"uniform vec2 inOffset;					\n"
 			"out vec4 outVertexColor;				\n"
 			"void main()							\n"
 			"{										\n"
-			//"	gl_Position=vec4(vertexPos.x * 0.5f,vertexPos.y * 0.5f,vertexPos.z * 0.5f,1.0f);	\n"
-			"	gl_Position=vec4(vertexPos,1.0f);	\n"
+			"	gl_Position=vec4(vertexPos.x * 0.4f - inOffset.x,vertexPos.y * 0.4f -  inOffset.y,vertexPos.z * 0.4f,1.0f);	\n"
+			//"	gl_Position=vec4(vertexPos,1.0f);	\n"
 			"	outVertexColor = inVertexColor;		\n"
 			"}										\n"
 			"\0										\n"
@@ -142,6 +145,118 @@ RsProgram* GraphicContext::getModelPrograme()
 	return m_modelPrograme;
 }
 
+
+RsProgram* GraphicContext::getModelProgrameInstance()
+{
+	if (m_modelProgrameInstance == NULL)
+	{
+		GLchar vertexShaderSrc[] =
+		{
+			"#version 330 core						\n"
+			"in vec3 vertexPos;						\n"
+			"in vec4 inVertexColor;					\n"
+			"in vec2 inOffset;				\n"
+			"out vec4 outVertexColor;				\n"
+			"void main()							\n"
+			"{										\n"
+			"	gl_Position=vec4(vertexPos.x * 0.4f - inOffset.x,vertexPos.y * 0.4f -  inOffset.y,vertexPos.z * 0.4f,1.0f);	\n"
+			"	outVertexColor = inVertexColor;		\n"
+			"}										\n"
+			"\0										\n"
+		};
+
+		GLchar fragmentShaderSrc[] =
+		{
+			"out vec4 color;							\n"
+			"in vec4 outVertexColor;				\n"
+			"void main()								\n"
+			"{											\n"
+			"	color = outVertexColor;					\n"
+			"}											\n"
+			"\0											\n"
+		};
+		m_modelProgrameInstance = new RsProgram(vertexShaderSrc, fragmentShaderSrc);
+	}
+
+	return m_modelProgrameInstance;
+}
+
+//RsProgram* GraphicContext::getParticleProgrameInstance()
+//{
+//	if (m_particleProgrameInstance == NULL)
+//	{
+//		GLchar particleVetexShader[] =
+//		{
+//			"#version 330 core						\n"
+//			"in vec3 inParticleCenter;				\n"
+//			"in float inParticleRadius;				\n"
+//			"in vec4 inParticleColor;				\n"
+//			"in float inParticleAge;				\n"
+//			"out float particleAge;				\n"
+//			"out vec3 particleCenter;				\n"
+//			"out vec4 particleColor;			\n"
+//			"out float particleRadius;				\n"
+//			"void main()							\n"
+//			"{										\n"
+//			"	gl_Position = vec4(inParticleCenter,0); 		\n"
+//			"	particleCenter = inParticleCenter; 		\n"
+//			"	particleRadius = inParticleRadius; 		\n"
+//			"	particleColor = inParticleColor; 		\n"
+//			"	particleAge = inParticleAge; 		\n"
+//			"}										\n"
+//			"\0										\n"
+//		};
+//
+//		GLchar particleFragShader[] =
+//		{
+//			"in float particleAge;					\n"
+//			"in float particleRadius;				\n"
+//			"in vec3 particleCenter;				\n"
+//			"in vec4 particleColor;					\n"
+//			"out vec4 color;						\n"
+//			"void main()							\n"
+//			"{										\n"
+//			"	if ( abs(particleAge - 0.0f) <= 0.00001f && pow(gl_FragCoord.x - particleCenter.x,2) + pow(gl_FragCoord.y - particleCenter.y,2) > pow(particleRadius,2)) \n"
+//			"		color = particleColor;			\n"
+//			"	else								\n"
+//			"		discard;						\n"
+//			"}										\n"
+//		};
+//		m_particleProgrameInstance = new RsProgram(particleVetexShader, particleFragShader);
+//	}
+//
+//	return m_particleProgrameInstance;
+//}
+
+RsProgram* GraphicContext::getParticleProgrameInstance()
+{
+	if (m_particleProgrameInstance == NULL)
+	{
+		GLchar particleVetexShader[] =
+		{
+			"#version 330 core						\n"
+			"in vec3 inParticleCenter;				\n"
+			"void main()							\n"
+			"{										\n"
+			"	gl_Position = vec4(inParticleCenter,0.0f); 		\n"
+			"}										\n"
+			"\0										\n"
+		};
+
+		GLchar particleFragShader[] =
+		{
+			"out vec4 color;						\n"
+			"void main()							\n"
+			"{										\n"
+			"color = vec4(1.0f,1.0f,0.0f,1.0f); \n"
+			"}										\n"
+		};
+		m_particleProgrameInstance = new RsProgram(particleVetexShader, particleFragShader);
+	}
+
+	return m_particleProgrameInstance;
+}
+
 void GraphicContext::saveScreenToBmp( int x, int y, int width, int height )
 {
 	//TGAImage image = TGAImage(width, height, TGAImage::RGBA);
@@ -153,3 +268,9 @@ void GraphicContext::saveScreenToBmp( int x, int y, int width, int height )
 	image.flipVertically(); // i want to have the origin at the left bottom corner of the image
 	image.writeTgaFile("model34.tga",false);
 }
+
+void GraphicContext::setSize(vec2i size)
+{
+	glfwSetWindowSize(g_context->getContext(), size.x, size.y);
+}
+

@@ -1,7 +1,7 @@
 #pragma once
 #include "stdafx.h"
-#include "texture.h"
-#include "rs_programe.h"
+#include "graphic_context.h"
+
 
 struct VertexIndex
 {
@@ -24,6 +24,11 @@ public:
 	~Model();
 
 	void draw(DrawContext* context);
+	void draw(DrawContext* context, vec2f offset);
+	void draw(DrawContext* context, bool offset);
+	void drawInstance(DrawContext* context);
+
+
 protected:
 	void loadObjModel(const char* filename);
 
@@ -50,4 +55,9 @@ private:
 	RsProgram* m_programe;
 	GLuint m_positionLoc;
 	GLuint m_colorLoc;
+	GLuint m_offset;
+
+	vec2f m_offsetVec[100000];
+	GLuint m_offsetVbo;
+
 };

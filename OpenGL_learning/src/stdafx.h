@@ -12,6 +12,9 @@
 #include "vector4.h"
 #include "vector2.h"
 #include "color.h"
+#include "texture.h"
+#include "rs_programe.h"
+
 
 #pragma warning(disable:4100)
 
