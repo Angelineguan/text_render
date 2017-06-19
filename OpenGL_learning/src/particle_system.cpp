@@ -38,7 +38,7 @@ ParticleSystem::ParticleSystem(int count, float gravity) : m_count(count), m_gra
 	glEnableVertexAttribArray(m_centerLoc);
 	glVertexAttribDivisor(m_centerLoc, 1);
 
-//	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glGenBuffers(1, &m_vboColor);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vboColor);
@@ -49,10 +49,17 @@ ParticleSystem::ParticleSystem(int count, float gravity) : m_count(count), m_gra
 	glEnableVertexAttribArray(m_colorLoc);
 	glVertexAttribDivisor(m_colorLoc, 1);
 
-	//m_sizeLoc = m_programe->getAttributeLoc("inSize");
-	//glVertexAttribPointer(m_sizeLoc, 1, GL_FLOAT, GL_FALSE, sizeof(vec3f), (GLvoid*)7);
-	//glEnableVertexAttribArray(m_sizeLoc);
-	//glVertexAttribDivisor(m_sizeLoc, 1);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+
+	glGenBuffers(1, &m_vboSize);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vboSize);
+	glBufferData(GL_ARRAY_BUFFER, m_count * m_count * sizeof(float), m_size, GL_STATIC_DRAW);
+	
+	m_sizeLoc = m_programe->getAttributeLoc("inSize");
+	glVertexAttribPointer(m_sizeLoc, 1, GL_FLOAT, GL_TRUE, sizeof(float), (GLvoid*)0);
+	glEnableVertexAttribArray(m_sizeLoc);
+	glVertexAttribDivisor(m_sizeLoc, 1);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -84,7 +91,7 @@ void ParticleSystem::init()
 	{
 		for (int j = 0; j < m_count;j++)
 		{
-			vec3f point = vec3f(i * 0.08f, j * 0.08f, 0.0f);
+			vec3f point = vec3f(i * 0.09f, j * 0.09f, 0.0f);
 			m_centerPos[i * m_count + j] = point;
 		}
 	}
@@ -94,6 +101,12 @@ void ParticleSystem::init()
 	{
 		m_colors[i] = vec4f(rand() % 256 / 256.0f, rand() % 256 / 256.0f, rand() % 256 / 256.0, 1.0f);
 	}
+
+	m_size = new float[m_count* m_count];
+	for (int i = 0; i < m_count * m_count; i++)
+	{
+		m_size[i] = rand() % 30 ;
+	}
 }
 
 ParticleSystem::~ParticleSystem()
@@ -102,6 +115,8 @@ ParticleSystem::~ParticleSystem()
 	glDeleteBuffers(1, &m_vboCenter);
 	glDeleteVertexArrays(1, &m_vao);
 	delete[] m_centerPos;
+	delete[] m_colors;
+	delete[] m_size;
 }
 
 
@@ -148,15 +163,10 @@ void ParticleSystem::render()
 {
 	m_programe->usePrograme();
 
-
 	glBindVertexArray(m_vao);
-
-//	m_programe->setUniform1f(m_radiusLoc,50.0f);
-//	m_programe->setUniform3fv(m_centerLoc, vec3f(0, 0, 0));
 
 	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, m_count* m_count);
 //	glDrawArrays(GL_TRIANGLES, 0, 6);
-	
 	glBindVertexArray(0);
 }
 

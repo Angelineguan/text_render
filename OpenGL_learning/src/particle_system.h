@@ -49,6 +49,7 @@ private:
 	vector<Particle> m_particles;
 	vec3f* m_centerPos;
 	vec4f* m_colors;
+	float* m_size;
 
 	RsProgram* m_programe;
 	GLuint m_centerLoc;
@@ -60,6 +61,7 @@ private:
 	GLuint m_vboRect;
 	GLuint m_vboCenter;
 	GLuint m_vboColor;
+	GLuint m_vboSize;
 	GLuint m_vao;
 };
 
