@@ -5,14 +5,15 @@ int main()
 {
 	DrawContext* drawContext = GraphicContext::getContext();
 
-	ParticleSystem* particleSystem = new ParticleSystem(15, 10.0f);
+	ParticleSystem* particleSystem = new ParticleSystem(25, 10.0f);
 
 	int width, height;
 		
 	glfwGetFramebufferSize(drawContext, &width, &height);
 
 	glEnable(GL_SCISSOR_TEST);
-
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	while (!glfwWindowShouldClose(drawContext))
 	{
 		vec2i size;
@@ -29,12 +30,11 @@ int main()
 		glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 */
-
-		particleSystem->render();
+		particleSystem->simulation(0.008f);
+		particleSystem->render(size.x, size.y);
 
 		glfwPollEvents();
 		glfwSwapBuffers(drawContext);
-
 	}
 	GraphicContext::saveScreenToBmp(0, 0, 800, 800);
 	GraphicContext::freeGraphicContext();

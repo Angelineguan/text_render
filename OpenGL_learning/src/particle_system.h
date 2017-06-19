@@ -36,13 +36,13 @@ public:
 
 	void applyGravity();
 
-	void render();
+	void render(int width, int height);
 
 	void simulation(float dt);
 
 	void particleMotion(float dt);
 
-
+	void updateParticleStatus(int width, int height);
 private:
 
 	int m_count;
@@ -57,9 +57,11 @@ private:
 	GLuint m_posLoc;
 	GLuint m_colorLoc;
 	GLuint m_sizeLoc;
+	GLuint m_screenSizeLoc;
 
 	GLuint m_vboRect;
 	GLuint m_vboCenter;
 	GLuint m_vao;
+
 };
 
