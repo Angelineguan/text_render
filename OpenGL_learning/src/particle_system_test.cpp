@@ -20,7 +20,7 @@ int main()
 		glfwGetWindowSize(drawContext, &size.x, &size.y);
 		glScissor(0, 0, size.x, size.y);
 		glViewport(0, 0, size.x, size.y);
-		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 

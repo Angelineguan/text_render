@@ -31,33 +31,20 @@ ParticleSystem::ParticleSystem(int count, float gravity) : m_count(count), m_gra
 
 	glGenBuffers(1, &m_vboCenter);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vboCenter);
-	glBufferData(GL_ARRAY_BUFFER, m_count * m_count * sizeof(vec3f), m_centerPos, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, m_count * m_count * sizeof(Point), m_centerPos, GL_STATIC_DRAW);
 
 	m_centerLoc = m_programe->getAttributeLoc("inCenter");
-	glVertexAttribPointer(m_centerLoc, 3, GL_FLOAT, GL_FALSE, sizeof(vec3f), (GLvoid*)0);
+	glVertexAttribPointer(m_centerLoc, 3, GL_FLOAT, GL_FALSE, sizeof(Point), (GLvoid*)0);
 	glEnableVertexAttribArray(m_centerLoc);
 	glVertexAttribDivisor(m_centerLoc, 1);
 
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glGenBuffers(1, &m_vboColor);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vboColor);
-	glBufferData(GL_ARRAY_BUFFER, m_count * m_count * sizeof(vec4f), m_colors, GL_STATIC_DRAW);
-
 	m_colorLoc = m_programe->getAttributeLoc("inColor");
-	glVertexAttribPointer(m_colorLoc, 4, GL_FLOAT, GL_TRUE, sizeof(vec4f), (GLvoid*)0);
+	glVertexAttribPointer(m_colorLoc, 4, GL_FLOAT, GL_TRUE, sizeof(Point), (GLvoid*)(sizeof(vec3f)));
 	glEnableVertexAttribArray(m_colorLoc);
 	glVertexAttribDivisor(m_colorLoc, 1);
 
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-
-	glGenBuffers(1, &m_vboSize);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vboSize);
-	glBufferData(GL_ARRAY_BUFFER, m_count * m_count * sizeof(float), m_size, GL_STATIC_DRAW);
-	
 	m_sizeLoc = m_programe->getAttributeLoc("inSize");
-	glVertexAttribPointer(m_sizeLoc, 1, GL_FLOAT, GL_TRUE, sizeof(float), (GLvoid*)0);
+	glVertexAttribPointer(m_sizeLoc, 1, GL_FLOAT, GL_TRUE, sizeof(Point), (GLvoid*)(sizeof(vec3f) + sizeof(Color)));
 	glEnableVertexAttribArray(m_sizeLoc);
 	glVertexAttribDivisor(m_sizeLoc, 1);
 
@@ -70,43 +57,33 @@ void ParticleSystem::init()
 {
 	srand(unsigned(time(0)));
 
-	Color colors[3] = { {0,0,1,1}, {1,0,1,1} };
-
 	for (int i = 0; i< m_count;i++)
 	{
 		Particle temp = { 
 			vec3f(0,0,0),
-			colors[rand() % 2],
+			Color(rand() % 256 / 256.0f, rand() % 256 / 256.0f, rand() % 256 / 256.0f, rand() % 10 /10.0f),
 			0.0f,
-			0.3f,
+			rand() % 30,
 			vec3f((rand() % 50) - 26.0f,(rand() % 50) - 26.0f, (rand() % 50) - 26.0f),
-			vec3f(0,0,0),
+			vec3f(0,m_gravity,0),
 			0.5f + 0.05f * (rand() % 10)
 		};
 		m_particles.push_back(temp);
 	}
 
-	m_centerPos = new vec3f[m_count * m_count];
+	m_centerPos = new Point[m_count * m_count];
 	for (int i = 0; i < m_count; i++)
 	{
 		for (int j = 0; j < m_count;j++)
 		{
-			vec3f point = vec3f(i * 0.09f, j * 0.09f, 0.0f);
+			Point point;
+			point.center= vec3f(i * 0.09f, j * 0.09f, 0.0f);
+			point.color = Color(rand() % 256 / 256.0f, rand() % 256 / 256.0f, rand() % 256 / 256.0f, rand() % 10 / 10.0f);
+			point.radius = rand() % 30;
 			m_centerPos[i * m_count + j] = point;
 		}
 	}
-
-	m_colors = new vec4f[m_count * m_count];
-	for (int i = 0; i < m_count * m_count; i++)
-	{
-		m_colors[i] = vec4f(rand() % 256 / 256.0f, rand() % 256 / 256.0f, rand() % 256 / 256.0, 1.0f);
-	}
-
-	m_size = new float[m_count* m_count];
-	for (int i = 0; i < m_count * m_count; i++)
-	{
-		m_size[i] = rand() % 30 ;
-	}
+	
 }
 
 ParticleSystem::~ParticleSystem()
@@ -115,15 +92,13 @@ ParticleSystem::~ParticleSystem()
 	glDeleteBuffers(1, &m_vboCenter);
 	glDeleteVertexArrays(1, &m_vao);
 	delete[] m_centerPos;
-	delete[] m_colors;
-	delete[] m_size;
 }
 
 
 void ParticleSystem::simulation(float dt)
 {
 	calculateAge(dt);
-	applyGravity();
+//	applyGravity();
 	particleMotion(dt);
 }
 

@@ -17,6 +17,8 @@ struct Particle
 struct Point
 {
 	vec3f center;
+	Color color;
+	float radius;
 };
 
 class ParticleSystem
@@ -47,9 +49,7 @@ private:
 	float m_gravity;
 
 	vector<Particle> m_particles;
-	vec3f* m_centerPos;
-	vec4f* m_colors;
-	float* m_size;
+	Point* m_centerPos;
 
 	RsProgram* m_programe;
 	GLuint m_centerLoc;
@@ -60,8 +60,6 @@ private:
 
 	GLuint m_vboRect;
 	GLuint m_vboCenter;
-	GLuint m_vboColor;
-	GLuint m_vboSize;
 	GLuint m_vao;
 };
 
