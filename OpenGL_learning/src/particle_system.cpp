@@ -1,14 +1,13 @@
 #include "particle_system.h"
 #include <time.h>
 
-
-GLfloat vertex11[] = {
-	-0.5f, -0.5f, -0.5,
-	0.5f, -0.5f,  -0.5,
-	0,  0.5f,  -0.5,
-	0,  0.5f,  -0.5,
-	0.5f, -0.5f,  -0.5,
-	1.0f, 0.5f,  -0.5
+vec3f points[] = {
+	vec3f(-0.5f, -0.5f, -0.5), 
+	vec3f(0.5f, -0.5f, -0.5),
+	vec3f(0.5f, 0.5f, -0.5),
+	vec3f(-0.5f, -0.5f, -0.5),
+	vec3f(0.5f, 0.5f, -0.5),
+	vec3f(-0.5f, 0.5f, -0.5),
 };
 
 ParticleSystem::ParticleSystem(int count, float gravity) : m_count(count), m_gravity(gravity)
@@ -17,47 +16,47 @@ ParticleSystem::ParticleSystem(int count, float gravity) : m_count(count), m_gra
 
 	m_programe = GraphicContext::instance()->getParticleProgrameInstance();
 
-	m_particleCenterLoc = m_programe->getAttributeLoc("inParticleCenter");
-	m_particleAgeLoc = m_programe->getAttributeLoc("inParticleAge");
-	m_particleColorLoc = m_programe->getAttributeLoc("inParticleColor");
-	m_particleRadiusLoc = m_programe->getAttributeLoc("inParticleRadius");
-
 	glGenVertexArrays(1, &m_vao);
-	glGenBuffers(1, &m_vbo);
-
 	glBindVertexArray(m_vao);
 
-	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-	glBufferData(GL_ARRAY_BUFFER, m_count * sizeof(vec3f), m_points, GL_STATIC_DRAW);
+	glGenBuffers(1, &m_vboRect);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vboRect);
+	glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(vec3f), points, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(m_particleCenterLoc, 3, GL_FLOAT, GL_FALSE, sizeof(vec3f), (GLvoid*)0);
-	glEnableVertexAttribArray(m_particleCenterLoc);
+	m_posLoc= m_programe->getAttributeLoc("inPos");
+	glVertexAttribPointer(m_posLoc, 3, GL_FLOAT, GL_FALSE, sizeof(vec3f), (GLvoid*)0);
+	glEnableVertexAttribArray(m_posLoc);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glGenBuffers(1, &m_vboCenter);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vboCenter);
+	glBufferData(GL_ARRAY_BUFFER, m_count * m_count * sizeof(vec3f), m_centerPos, GL_STATIC_DRAW);
+
+	m_centerLoc = m_programe->getAttributeLoc("inCenter");
+	glVertexAttribPointer(m_centerLoc, 3, GL_FLOAT, GL_FALSE, sizeof(vec3f), (GLvoid*)0);
+	glEnableVertexAttribArray(m_centerLoc);
+	glVertexAttribDivisor(m_centerLoc, 1);
+
+//	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glGenBuffers(1, &m_vboColor);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vboColor);
+	glBufferData(GL_ARRAY_BUFFER, m_count * m_count * sizeof(vec4f), m_colors, GL_STATIC_DRAW);
+
+	m_colorLoc = m_programe->getAttributeLoc("inColor");
+	glVertexAttribPointer(m_colorLoc, 4, GL_FLOAT, GL_TRUE, sizeof(vec4f), (GLvoid*)0);
+	glEnableVertexAttribArray(m_colorLoc);
+	glVertexAttribDivisor(m_colorLoc, 1);
+
+	//m_sizeLoc = m_programe->getAttributeLoc("inSize");
+	//glVertexAttribPointer(m_sizeLoc, 1, GL_FLOAT, GL_FALSE, sizeof(vec3f), (GLvoid*)7);
+	//glEnableVertexAttribArray(m_sizeLoc);
+	//glVertexAttribDivisor(m_sizeLoc, 1);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 	glBindVertexArray(0);
-
-
-	//glGenVertexArrays(1, &m_vao);
-	//glBindVertexArray(m_vao);
-
-	//glGenBuffers(1, &m_vbo);
-	//glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-	//glBufferData(GL_ARRAY_BUFFER, m_count * sizeof(Particle), &m_particles[0], GL_DYNAMIC_DRAW);
-
-	//glEnableVertexAttribArray(m_particleCenterLoc);
-	//glVertexAttribPointer(m_particleCenterLoc, 3, GL_FLOAT, GL_FALSE, sizeof(Particle), (GLvoid*)0);
-
-	//glEnableVertexAttribArray(m_particleColorLoc);
-	//glVertexAttribPointer(m_particleColorLoc, 4, GL_FLOAT, GL_FALSE, sizeof(Particle), (GLvoid*)3);
-
-	//glEnableVertexAttribArray(m_particleAgeLoc);
-	//glVertexAttribPointer(m_particleAgeLoc, 1, GL_FLOAT, GL_FALSE, sizeof(Particle), (GLvoid*)7);
-
-	//glEnableVertexAttribArray(m_particleRadiusLoc);
-	//glVertexAttribPointer(m_particleRadiusLoc, 1, GL_FLOAT, GL_FALSE, sizeof(Particle), (GLvoid*)8);
-
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
-	//glBindVertexArray(0);
 }
 
 void ParticleSystem::init()
@@ -80,18 +79,29 @@ void ParticleSystem::init()
 		m_particles.push_back(temp);
 	}
 
-	m_points = new vec3f[m_count];
+	m_centerPos = new vec3f[m_count * m_count];
 	for (int i = 0; i < m_count; i++)
 	{
+		for (int j = 0; j < m_count;j++)
+		{
+			vec3f point = vec3f(i * 0.08f, j * 0.08f, 0.0f);
+			m_centerPos[i * m_count + j] = point;
+		}
+	}
 
-		vec3f point = vec3f((rand() % 100), (rand() % 100), 0) * 0.01f;
-		m_points[i] = point;
+	m_colors = new vec4f[m_count * m_count];
+	for (int i = 0; i < m_count * m_count; i++)
+	{
+		m_colors[i] = vec4f(rand() % 256 / 256.0f, rand() % 256 / 256.0f, rand() % 256 / 256.0, 1.0f);
 	}
 }
 
 ParticleSystem::~ParticleSystem()
 {
-	delete[] m_points;
+	glDeleteBuffers(1, &m_vboRect);
+	glDeleteBuffers(1, &m_vboCenter);
+	glDeleteVertexArrays(1, &m_vao);
+	delete[] m_centerPos;
 }
 
 
@@ -138,11 +148,14 @@ void ParticleSystem::render()
 {
 	m_programe->usePrograme();
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	glBindVertexArray(m_vao);
 
-	glDrawArrays(GL_TRIANGLES, 0,9);
+//	m_programe->setUniform1f(m_radiusLoc,50.0f);
+//	m_programe->setUniform3fv(m_centerLoc, vec3f(0, 0, 0));
+
+	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, m_count* m_count);
+//	glDrawArrays(GL_TRIANGLES, 0, 6);
 	
 	glBindVertexArray(0);
 }

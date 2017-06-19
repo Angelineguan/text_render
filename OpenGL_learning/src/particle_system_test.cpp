@@ -5,7 +5,7 @@ int main()
 {
 	DrawContext* drawContext = GraphicContext::getContext();
 
-	ParticleSystem* particleSystem = new ParticleSystem(9, 10.0f);
+	ParticleSystem* particleSystem = new ParticleSystem(15, 10.0f);
 
 	int width, height;
 		
@@ -24,11 +24,11 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 
 
-		glScissor(100, 100, 400, 400);
+	/*	glScissor(100, 100, 400, 400);
 		glViewport(100, 100, 400, 400);
 		glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-
+*/
 
 		particleSystem->render();
 

@@ -3,7 +3,6 @@
 #include <fstream>
 #include <sstream>
 #include<string.h>
-#include <glm/glm.hpp>
 using namespace std;
 
 Model::Model(const char *filename) :m_programe(NULL), m_positionLoc(SIZE_MAX),

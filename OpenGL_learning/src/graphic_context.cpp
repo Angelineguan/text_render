@@ -188,38 +188,27 @@ RsProgram* GraphicContext::getModelProgrameInstance()
 //		GLchar particleVetexShader[] =
 //		{
 //			"#version 330 core						\n"
-//			"in vec3 inParticleCenter;				\n"
-//			"in float inParticleRadius;				\n"
-//			"in vec4 inParticleColor;				\n"
-//			"in float inParticleAge;				\n"
-//			"out float particleAge;				\n"
-//			"out vec3 particleCenter;				\n"
-//			"out vec4 particleColor;			\n"
-//			"out float particleRadius;				\n"
+//			"in vec3 inPos;				\n"
 //			"void main()							\n"
 //			"{										\n"
-//			"	gl_Position = vec4(inParticleCenter,1.0f); 		\n"
-//			"	particleCenter = inParticleCenter; 		\n"
-//			"	particleRadius = inParticleRadius; 		\n"
-//			"	particleColor = inParticleColor; 		\n"
-//			"	particleAge = inParticleAge; 		\n"
+//			"	gl_Position = vec4(inPos,1.0f); 		\n"
 //			"}										\n"
 //			"\0										\n"
 //		};
 //
 //		GLchar particleFragShader[] =
 //		{
-//			"in float particleAge;					\n"
-//			"in float particleRadius;				\n"
-//			"in vec3 particleCenter;				\n"
-//			"in vec4 particleColor;					\n"
+//			"uniform float radius;				\n"
+//			"uniform vec3 center;				\n"
 //			"out vec4 color;						\n"
 //			"void main()							\n"
 //			"{										\n"
-//			"	if ( abs(particleAge - 0.0f) <= 0.00001f && pow(gl_FragCoord.x - particleCenter.x,2) + pow(gl_FragCoord.y - particleCenter.y,2) > pow(particleRadius,2)) \n"
-//			"		color = particleColor;			\n"
+//			"	vec2 screenCenter = vec2((center.x + 1.0f) * 400.0f, (center.y + 1.0f) * 400.0f); 	"
+//			"	vec2 temp = vec2(gl_FragCoord.xy) - screenCenter;\n"
+//			"	if (length(temp) < radius)  \n"
+//			"		color = vec4(1.0f, 1.0f, 0, 1.0f); \n"
 //			"	else								\n"
-//			"		discard;						\n"
+//				"	color = vec4(1.0f, 0.0f, 0, 1.0f); \n"
 //			"}										\n"
 //		};
 //		m_particleProgrameInstance = new RsProgram(particleVetexShader, particleFragShader);
@@ -228,6 +217,7 @@ RsProgram* GraphicContext::getModelProgrameInstance()
 //	return m_particleProgrameInstance;
 //}
 
+
 RsProgram* GraphicContext::getParticleProgrameInstance()
 {
 	if (m_particleProgrameInstance == NULL)
@@ -235,20 +225,42 @@ RsProgram* GraphicContext::getParticleProgrameInstance()
 		GLchar particleVetexShader[] =
 		{
 			"#version 330 core						\n"
-			"in vec3 inParticleCenter;				\n"
+			"in vec3 inPos;							\n"
+			"in vec3 inCenter;						\n"
+			"in vec4 inColor;						\n"
+			"in float inSize;						\n"
+			"out vec3 center;						\n"
+			"out vec4 color;						\n"
 			"void main()							\n"
 			"{										\n"
-			"	gl_Position = vec4(inParticleCenter,1.0f); 		\n"
+			"	float size = 1.0f;					\n"
+			"	vec3 tempCenter = vec3(inCenter.x - 0.5f, inCenter.y - 0.5f, 0.0f);\n"
+			"	gl_Position = vec4(inPos.x * size + tempCenter.x, inPos.y * size  + tempCenter.y, 0.0f, 1.0f); 		\n"
+			"	center = tempCenter;					\n"
+			"	color = inColor;						\n"
 			"}										\n"
 			"\0										\n"
 		};
 
 		GLchar particleFragShader[] =
 		{
-			"out vec4 color;						\n"
+			"in vec4 color;						\n"
+			"in vec3 center;						\n"
+			"out vec4 outColor;						\n"
 			"void main()							\n"
 			"{										\n"
-			"color = vec4(1.0f,1.0f,0.0f,1.0f); \n"
+			"	vec2 screenCenter = vec2((center.x + 1.0f) * 400.0f, (center.y + 1.0f) * 400.0f); \n"
+			"	vec2 temp = vec2(gl_FragCoord.xy) - screenCenter;\n"
+			"	if (length(temp) < 10.0f)  \n"
+			"{										\n"
+			"		outColor = vec4(0.6f - center.x, 0.6f- center.y, 0.6f- center.z,1.0f);				\n"
+			"		outColor = vec4(1.0f,0,0,1.0f);				\n"
+			"		outColor = color;				\n"
+			"}										\n"
+			"	else								\n"
+			"		discard;						\n"
+
+		//	"		outColor = color;				\n"
 			"}										\n"
 		};
 		m_particleProgrameInstance = new RsProgram(particleVetexShader, particleFragShader);
