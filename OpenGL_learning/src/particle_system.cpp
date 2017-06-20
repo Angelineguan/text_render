@@ -67,25 +67,12 @@ void ParticleSystem::init()
 		//	vec3f(0,0,0),
 			Color(rand() % 256 / 256.0f, rand() % 256 / 256.0f, rand() % 256 / 256.0f, rand() % 10 /10.0f),
 			0.0f,
-			rand() % 30,
+			(float)(rand() % 30),
 			vec3f(((rand() % 50) - 26.0f) / 25.0f,((rand() % 50) - 26.0f) / 25.0f, ((rand() % 50) - 26.0f) / 25.0f),
-			vec3f(0,m_gravity,0),
+			vec3f(0.0f, m_gravity, 0.0f),
 			0.5f + 0.05f * (rand() % 10)
 		};
 		m_particles.push_back(temp);
-	}
-
-	m_centerPos = new Point[m_count * m_count];
-	for (int i = 0; i < m_count; i++)
-	{
-		for (int j = 0; j < m_count;j++)
-		{
-			Point point;
-			point.center= vec3f(i * 0.09f, j * 0.09f, 0.0f);
-			point.color = Color(rand() % 256 / 256.0f, rand() % 256 / 256.0f, rand() % 256 / 256.0f, rand() % 10 / 10.0f);
-			point.radius = rand() % 30;
-			m_centerPos[i * m_count + j] = point;
-		}
 	}
 }
 
@@ -94,7 +81,6 @@ ParticleSystem::~ParticleSystem()
 	glDeleteBuffers(1, &m_vboRect);
 	glDeleteBuffers(1, &m_vboCenter);
 	glDeleteVertexArrays(1, &m_vao);
-	delete[] m_centerPos;
 }
 
 void ParticleSystem::simulation(float dt)

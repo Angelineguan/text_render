@@ -99,7 +99,7 @@ bool TGAImage::load_rle_data(std::ifstream &in) {
     TGAColor colorbuffer;
     do {
         unsigned char chunkheader = 0;
-        chunkheader = in.get();
+		chunkheader = (unsigned char)in.get();
         if (!in.good()) {
             std::cerr << "an error occured while reading the data\n";
             return false;
@@ -154,9 +154,9 @@ bool TGAImage::writeTgaFile(const char *filename, bool rle) {
     }
     TGA_Header header;
     memset((void *)&header, 0, sizeof(header));
-    header.bitsperpixel = m_bytespp<<3;
-    header.width  = m_width;
-    header.height = m_height;
+    header.bitsperpixel = (char)m_bytespp<<3;
+    header.width  =(short)m_width;
+	header.height =(short)m_height;
     header.datatypecode = (m_bytespp==GRAYSCALE?(rle?11:3):(rle?10:2));
     header.imagedescriptor = 0x20; // top-left origin
     out.write((char *)&header, sizeof(header));
@@ -248,7 +248,7 @@ TGAColor TGAImage::get(int x, int y) {
     if (!m_data || x<0 || y<0 || x>=m_width || y>=m_height) {
         return TGAColor();
     }
-    return TGAColor(m_data+(x+y*m_width)*m_bytespp, m_bytespp);
+    return TGAColor(m_data+(x+y*m_width)*m_bytespp, (unsigned char)m_bytespp);
 }
 
 bool TGAImage::set(int x, int y, TGAColor &c) {

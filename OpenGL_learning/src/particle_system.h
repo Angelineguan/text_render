@@ -14,13 +14,6 @@ struct Particle
 	float life;
 };
 
-struct Point
-{
-	vec3f center;
-	Color color;
-	float radius;
-};
-
 class ParticleSystem
 {
 public:
@@ -49,8 +42,6 @@ private:
 	float m_gravity;
 
 	vector<Particle> m_particles;
-	Point* m_centerPos;
-
 	RsProgram* m_programe;
 	GLuint m_centerLoc;
 	GLuint m_radiusLoc;
