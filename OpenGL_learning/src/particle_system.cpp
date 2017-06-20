@@ -27,7 +27,7 @@ ParticleSystem::ParticleSystem(int count, float gravity) : m_count(count), m_gra
 	glVertexAttribPointer(m_posLoc, 3, GL_FLOAT, GL_FALSE, sizeof(vec3f), (GLvoid*)0);
 	glEnableVertexAttribArray(m_posLoc);
 
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glGenBuffers(1, &m_vboCenter);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vboCenter);
@@ -53,6 +53,7 @@ ParticleSystem::ParticleSystem(int count, float gravity) : m_count(count), m_gra
 	glUniform2f(m_screenSizeLoc, 800.0f, 800.0f);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 	glBindVertexArray(0);
 }
 
@@ -133,7 +134,6 @@ void ParticleSystem::render(int width, int height)
 	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, m_count* m_count);
 	glBindVertexArray(0);
 }
-
 
 void ParticleSystem::updateParticleStatus(int width, int height)
 {
