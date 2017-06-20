@@ -192,6 +192,10 @@ RsProgram* GraphicContext::getParticleProgrameInstance()
 			"in vec3 inCenter;						\n"
 			"in vec4 inColor;						\n"
 			"in float inSize;						\n"
+			"in float inAge;						\n"
+			"in float inLife;						\n"
+			"out float life;						\n"
+			"out float age;							\n"
 			"out float tempSize;						\n"
 			"out vec3 center;						\n"
 			"out vec4 color;						\n"
@@ -203,12 +207,16 @@ RsProgram* GraphicContext::getParticleProgrameInstance()
 			"	center = tempCenter;					\n"
 			"	color = inColor;						\n"
 			"	tempSize = inSize;						\n"
+			"	life = inLife;						\n"
+			"	age = inAge;						\n"
 			"}										\n"
 			"\0										\n"
 		};
 
 		GLchar particleFragShader[] =
 		{
+			"in float life;						\n"
+			"in float age;							\n"
 			"in float tempSize;						\n"
 			"in vec4 color;						\n"
 			"in vec3 center;						\n"
@@ -220,7 +228,7 @@ RsProgram* GraphicContext::getParticleProgrameInstance()
 			"	vec2 temp = vec2(gl_FragCoord.xy) - screenCenter;\n"
 			"	if (tempSize < 30.0f &&length(temp) < tempSize)  \n"
 			"{										\n"
-			"		outColor = vec4(color.rgb, 1.0f);				\n"
+			"		outColor = vec4(color.rgb, life - age / life);				\n"
 			"}										\n"
 			"	else								\n"
 			"		discard;						\n"

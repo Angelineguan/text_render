@@ -3,6 +3,14 @@
 #include "stdafx.h"
 #include "graphic_context.h"
 
+enum ParticleType
+{
+	ParticleType_RandomColorCircle = 0,
+	ParticleType_snowflakes = 1, 
+	ParticleType_rain = 2,
+	ParticleType_max
+};
+
 struct Particle
 {
 	vec3f pos;
@@ -36,6 +44,8 @@ public:
 	void particleMotion(float dt);
 
 	void updateParticleStatus(int width, int height);
+
+	static void animation(ParticleSystem* particleSystem);
 private:
 
 	int m_count;
@@ -49,10 +59,13 @@ private:
 	GLuint m_colorLoc;
 	GLuint m_sizeLoc;
 	GLuint m_screenSizeLoc;
+	GLuint m_lifeLoc;
+	GLuint m_ageLoc;
 
 	GLuint m_vboRect;
 	GLuint m_vboCenter;
 	GLuint m_vao;
 
+	ParticleType m_type;
 };
 

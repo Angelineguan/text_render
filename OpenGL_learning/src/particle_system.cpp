@@ -43,11 +43,20 @@ ParticleSystem::ParticleSystem(int count, float gravity) : m_count(count), m_gra
 	glEnableVertexAttribArray(m_colorLoc);
 	glVertexAttribDivisor(m_colorLoc, 1);
 
+	m_ageLoc = m_programe->getAttributeLoc("inAge");
+	glVertexAttribPointer(m_ageLoc, 1, GL_FLOAT, GL_TRUE, sizeof(Particle), (GLvoid*)(sizeof(vec3f) + sizeof(Color)));
+	glEnableVertexAttribArray(m_ageLoc);
+	glVertexAttribDivisor(m_ageLoc, 1);
+
+	m_lifeLoc = m_programe->getAttributeLoc("inLife");
+	glVertexAttribPointer(m_lifeLoc, 1, GL_FLOAT, GL_TRUE, sizeof(Particle), (GLvoid*)(sizeof(Particle) - sizeof(float)));
+	glEnableVertexAttribArray(m_lifeLoc);
+	glVertexAttribDivisor(m_lifeLoc, 1);
+
 	m_sizeLoc = m_programe->getAttributeLoc("inSize");
 	glVertexAttribPointer(m_sizeLoc, 1, GL_FLOAT, GL_TRUE, sizeof(Particle), (GLvoid*)(sizeof(vec3f) + sizeof(Color) + sizeof(float)));
 	glEnableVertexAttribArray(m_sizeLoc);
 	glVertexAttribDivisor(m_sizeLoc, 1);
-
 
 	m_screenSizeLoc = m_programe->getUniformLoc("screenSize");
 	glUniform2f(m_screenSizeLoc, 800.0f, 800.0f);
@@ -131,7 +140,7 @@ void ParticleSystem::render(int width, int height)
 	glBindVertexArray(m_vao);
 	updateParticleStatus(width, height);
 
-	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, m_count* m_count);
+	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, m_count * m_count);
 	glBindVertexArray(0);
 }
 
@@ -140,7 +149,6 @@ void ParticleSystem::updateParticleStatus(int width, int height)
 	glBindBuffer(GL_ARRAY_BUFFER, m_vboRect);
 	glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(vec3f), points, GL_STATIC_DRAW);
 
-	m_posLoc = m_programe->getAttributeLoc("inPos");
 	glVertexAttribPointer(m_posLoc, 3, GL_FLOAT, GL_FALSE, sizeof(vec3f), (GLvoid*)0);
 	glEnableVertexAttribArray(m_posLoc);
 
@@ -149,17 +157,22 @@ void ParticleSystem::updateParticleStatus(int width, int height)
 	glBindBuffer(GL_ARRAY_BUFFER, m_vboCenter);
 	glBufferData(GL_ARRAY_BUFFER, m_count * sizeof(Particle), &m_particles[0], GL_STATIC_DRAW);
 
-	m_centerLoc = m_programe->getAttributeLoc("inCenter");
 	glVertexAttribPointer(m_centerLoc, 3, GL_FLOAT, GL_FALSE, sizeof(Particle), (GLvoid*)0);
 	glEnableVertexAttribArray(m_centerLoc);
 	glVertexAttribDivisor(m_centerLoc, 1);
 
-	m_colorLoc = m_programe->getAttributeLoc("inColor");
 	glVertexAttribPointer(m_colorLoc, 4, GL_FLOAT, GL_TRUE, sizeof(Particle), (GLvoid*)(sizeof(vec3f)));
 	glEnableVertexAttribArray(m_colorLoc);
 	glVertexAttribDivisor(m_colorLoc, 1);
 
-	m_sizeLoc = m_programe->getAttributeLoc("inSize");
+	glVertexAttribPointer(m_ageLoc, 1, GL_FLOAT, GL_TRUE, sizeof(Particle), (GLvoid*)(sizeof(vec3f) + sizeof(Color)));
+	glEnableVertexAttribArray(m_ageLoc);
+	glVertexAttribDivisor(m_ageLoc, 1);
+
+	glVertexAttribPointer(m_lifeLoc, 1, GL_FLOAT, GL_TRUE, sizeof(Particle), (GLvoid*)(sizeof(Particle) - sizeof(float)));
+	glEnableVertexAttribArray(m_lifeLoc);
+	glVertexAttribDivisor(m_lifeLoc, 1);
+
 	glVertexAttribPointer(m_sizeLoc, 1, GL_FLOAT, GL_TRUE, sizeof(Particle), (GLvoid*)(sizeof(vec3f) + sizeof(Color) + sizeof(float)));
 	glEnableVertexAttribArray(m_sizeLoc);
 	glVertexAttribDivisor(m_sizeLoc, 1);
