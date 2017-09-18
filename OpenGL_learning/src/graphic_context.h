@@ -22,8 +22,6 @@ public:
 
 	RsProgram* getParticleProgrameInstance();
 
-
-
 	static void saveScreenToBmp(int x, int y, int width, int height);
 
 protected:

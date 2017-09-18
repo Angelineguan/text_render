@@ -24,32 +24,26 @@ struct Point
 class ParticleSystem
 {
 public:
-	ParticleSystem() {}
-
 	ParticleSystem(int count, float gravity);
 
 	~ParticleSystem();
 
-	void init(); 
-
-	void calculateAge(float dt); 
-
-	void applyGravity();
-
 	void render(int width, int height);
 
-	void simulation(float dt);
-
-	void particleMotion(float dt);
+private:
+	void init(); 
 
 	void updateParticleStatus(int width, int height);
-private:
+	void particleMotion(float dt);
+	void calculateAge(float dt);
+	void applyGravity();
+	void simulation(float dt);
 
+private:
 	int m_count;
 	float m_gravity;
 
 	vector<Particle> m_particles;
-	Point* m_centerPos;
 
 	RsProgram* m_programe;
 	GLuint m_centerLoc;
@@ -58,10 +52,7 @@ private:
 	GLuint m_colorLoc;
 	GLuint m_sizeLoc;
 	GLuint m_screenSizeLoc;
-
 	GLuint m_vboRect;
 	GLuint m_vboCenter;
 	GLuint m_vao;
-
 };
-

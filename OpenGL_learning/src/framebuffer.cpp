@@ -10,8 +10,8 @@ FrameBuffer::FrameBuffer( int width, int height ) : m_width(width), m_height(hei
 	glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,(GLsizei)m_width,(GLsizei)m_height,0,GL_RGBA,GL_UNSIGNED_BYTE,NULL);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-	glBindTexture(GL_TEXTURE_2D,0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,m_colorbufferhandle,0);
+	glBindTexture(GL_TEXTURE_2D,0);
 
 	glGenRenderbuffers(1,&m_depthbufferhandle);
 	glBindRenderbuffer(GL_RENDERBUFFER,m_depthbufferhandle);

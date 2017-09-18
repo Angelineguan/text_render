@@ -84,23 +84,39 @@ RsProgram* GraphicContext::getTrianglePrograme()
 		{
 			"#version 330 core						\n"
 			"in vec3 position;						\n"
+			"out vec2 outPosition;						\n"
 			"uniform vec3 offset;						\n"
 			"void main()							\n"
 			"{										\n"
-			"	gl_Position=vec4(0.5*position.x+offset.x,0.5*position.y+offset.y,0.5*position.z+offset.z,1.0);		\n"
+			//	"	gl_Position=vec4(0.5*position.x+offset.x,0.5*position.y+offset.y,0.5*position.z+offset.z,1.0);		\n"
+				"	gl_Position=vec4(position.x+offset.x,position.y+offset.y,position.z+offset.z,1.0);		\n"
+				"outPosition = gl_Position.xy; \n"
 			"}										\n"
 			"\0										\n"
 		};
 
-		GLchar* fragmentShader_drawTriangle = 
+		GLchar* fragmentShader_drawTriangle =
 		{
+			"in vec2 outPosition;						\n"
 			"uniform vec4 outColor;						\n"
 			"out vec4 color;							\n"
 			//	"uniform vec3 changeColor;					\n"
 			"void main()								\n"
 			"{										\n"
-			"	color=vec4(outColor.x,outColor.y,outColor.z,outColor.w);						\n"
-			"}										\n"
+			//	"	color=vec4(outColor.x,outColor.y,outColor.z,outColor.w);						\n"
+			"	vec2  circleCenter = vec2(400.0f,280.0f); \n"
+			"	float r = 50.0f;		\n	"
+			"	float distance = length(gl_FragCoord.xy - circleCenter) - r;\n"
+			"	float delta = smoothstep(0, 5.7f,distance);\n"
+			"	if (distance <=10.0f* r)\n"
+			"	{\n"
+			"		vec4  fillColor = vec4(1,0,0,1.0 - delta);\n"
+			"		color = mix(vec4(0,1,0,0.5), fillColor, fillColor.a); \n"
+			"	}										\n"
+			"	else  \n"
+					"discard;"
+			"}\n"
+			
 		};
 		m_trianglePrograme = new RsProgram(vertexShader_drawTriangle, fragmentShader_drawTriangle);
 	}
@@ -181,43 +197,6 @@ RsProgram* GraphicContext::getModelProgrameInstance()
 	return m_modelProgrameInstance;
 }
 
-//RsProgram* GraphicContext::getParticleProgrameInstance()
-//{
-//	if (m_particleProgrameInstance == NULL)
-//	{
-//		GLchar particleVetexShader[] =
-//		{
-//			"#version 330 core						\n"
-//			"in vec3 inPos;				\n"
-//			"void main()							\n"
-//			"{										\n"
-//			"	gl_Position = vec4(inPos,1.0f); 		\n"
-//			"}										\n"
-//			"\0										\n"
-//		};
-//
-//		GLchar particleFragShader[] =
-//		{
-//			"uniform float radius;				\n"
-//			"uniform vec3 center;				\n"
-//			"out vec4 color;						\n"
-//			"void main()							\n"
-//			"{										\n"
-//			"	vec2 screenCenter = vec2((center.x + 1.0f) * 400.0f, (center.y + 1.0f) * 400.0f); 	"
-//			"	vec2 temp = vec2(gl_FragCoord.xy) - screenCenter;\n"
-//			"	if (length(temp) < radius)  \n"
-//			"		color = vec4(1.0f, 1.0f, 0, 1.0f); \n"
-//			"	else								\n"
-//				"	color = vec4(1.0f, 0.0f, 0, 1.0f); \n"
-//			"}										\n"
-//		};
-//		m_particleProgrameInstance = new RsProgram(particleVetexShader, particleFragShader);
-//	}
-//
-//	return m_particleProgrameInstance;
-//}
-
-
 RsProgram* GraphicContext::getParticleProgrameInstance()
 {
 	if (m_particleProgrameInstance == NULL)
@@ -239,7 +218,7 @@ RsProgram* GraphicContext::getParticleProgrameInstance()
 			"	gl_Position = vec4(inPos.x * size + tempCenter.x, inPos.y * size  + tempCenter.y, 0.0f, 1.0f); 		\n"
 			"	center = tempCenter;					\n"
 			"	color = inColor;						\n"
-			"	tempSize = inSize;						\n"
+			"	tempSize = inSize * 2;						\n"
 			"}										\n"
 			"\0										\n"
 		};
@@ -255,17 +234,15 @@ RsProgram* GraphicContext::getParticleProgrameInstance()
 			"{										\n"
 			"	vec2 screenCenter = vec2((center.x + 1.0f) *screenSize.x * 0.5f, (center.y + 1.0f) * screenSize.y * 0.5f); \n"
 			"	vec2 temp = vec2(gl_FragCoord.xy) - screenCenter;\n"
-			"	if (tempSize < 30.0f &&length(temp) < tempSize)  \n"
-			"{										\n"
-		//	"		outColor = vec4(0.6f - center.x, 0.6f- center.y, 0.6f- center.z,1.0f);				\n"
-		//	"		outColor = vec4(1.0f,0,0,0.5f);				\n"
-		//	"		outColor = color;				\n"
-			"		outColor = vec4(color.rgb, 1.0f);				\n"
+			"	float d = length(temp); \n"
+			"	float delta = smoothstep(0,30, d - tempSize);\n"
+		//		"	if (tempSize < 100.0f && d < tempSize)  \n"
+				"{										\n"
+				"	vec4 fillColor = vec4(color.rgb, 1-delta);	\n"
+			"	outColor = mix(vec4(0,0,0,0),fillColor,fillColor.a ); \n"
 			"}										\n"
-			"	else								\n"
-			"		discard;						\n"
-
-		//	"		outColor = color;				\n"
+		//	"	else								\n"
+		//	"		discard;						\n"
 			"}										\n"
 		};
 		m_particleProgrameInstance = new RsProgram(particleVetexShader, particleFragShader);

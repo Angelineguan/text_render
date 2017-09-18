@@ -14,6 +14,7 @@
     <ClCompile Include="src\callback_collections.cpp" />
     <ClCompile Include="src\framebuffer.cpp" />
     <ClCompile Include="src\graphic_context.cpp" />
+    <ClCompile Include="src\heat_map.cpp" />
     <ClCompile Include="src\model.cpp" />
     <ClCompile Include="src\particle_system.cpp" />
     <ClCompile Include="src\particle_system_test.cpp" />
@@ -32,6 +33,7 @@
     <ClInclude Include="src\callback_collections.h" />
     <ClInclude Include="src\framebuffer.h" />
     <ClInclude Include="src\graphic_context.h" />
+    <ClInclude Include="src\heat_map.h" />
     <ClInclude Include="src\model.h" />
     <ClInclude Include="src\particle_system.h" />
     <ClInclude Include="src\rs_programe.h" />

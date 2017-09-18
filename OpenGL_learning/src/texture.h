@@ -36,6 +36,10 @@ public:
 		return size;
 	}
 
+	GLuint getTexture() {
+		return m_tex;
+	}
+
 private:
 	Texture();
 	void _createTexture();

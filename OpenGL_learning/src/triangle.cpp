@@ -1,24 +1,6 @@
 #include "triangle.h"
 #include "graphic_context.h"
 
-GLfloat vertex0[]={
-	-0.5f, -0.5f, 0,
-	0.5f, -0.5f, 0,
-	0,  0.5f, 0,
-	0,  0.5f, 0,
-	0.5f, -0.5f, 0,
-	1.0f, 0.5f, 0
-};
-
-GLfloat vertex1[]={
-	-0.5f, -0.5f, -0.5,
-	0.5f, -0.5f,  -0.5,
-	0,  0.5f,  -0.5,
-	0,  0.5f,  -0.5,
-	0.5f, -0.5f,  -0.5,
-	1.0f, 0.5f,  -0.5
-};
-
 Triangle::Triangle( GLfloat* vertex, size_t num )
 {
 	m_programe = GraphicContext::instance()->getTrianglePrograme();
@@ -44,7 +26,7 @@ Triangle::~Triangle()
 	glDeleteVertexArrays(1,&m_vaoHandle);
 }
 
-void Triangle::draw()
+void Triangle::render()
 {	
 	m_programe->usePrograme();
 	glBindVertexArray(m_vaoHandle);
@@ -67,9 +49,9 @@ void Triangle::draw()
 	static float green = 0.3f;
 	static float blue = 0.8f;
 
-	red += 0.00005f;
-	green += 0.0005f;
-	blue += 0.0005f;
+	red += 0.0005f;
+	green += 0.005f;
+	blue += 0.005f;
 	m_innerColor = Color_make(sinf(red), cosf(green), sinf(blue), 1.0f);
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -92,4 +74,3 @@ void Triangle::setOffset(vec3f* offset)
 {
 	m_offset = *offset;
 }
-//////////////////////////////////////////////////////////////////////////

@@ -7,34 +7,34 @@ RsProgram::RsProgram( const GLchar* vertexShaderSource, const GLchar* fragmentSh
 
 GLuint RsProgram::createProgram(const GLchar*_vertexShaderSource,const GLchar*_fragmentShaderSource)
 {
-	GLuint verteshader; 
-	verteshader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(verteshader, 1, &_vertexShaderSource, NULL);
-	glCompileShader(verteshader);
+	GLuint vertexShader; 
+	vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vertexShader, 1, &_vertexShaderSource, NULL);
+	glCompileShader(vertexShader);
 	GLint success=0;
 	GLchar infoLog[512];
-	glGetShaderiv(verteshader, GL_COMPILE_STATUS, &success);
+	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
 	if (!success)
 	{
-		glGetShaderInfoLog(verteshader, 512, NULL, infoLog);
+		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
 		cout<<"ERROR::verteshader::vertext::compile failed\n"<<infoLog<<endl;
 	}
 	/////////
-	GLuint fragmentshader;
-	fragmentshader=glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentshader, 1, &_fragmentShaderSource, NULL);
-	glCompileShader(fragmentshader);
-	glGetShaderiv(fragmentshader, GL_COMPILE_STATUS, &success);
+	GLuint fragmentShader;
+	fragmentShader=glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragmentShader, 1, &_fragmentShaderSource, NULL);
+	glCompileShader(fragmentShader);
+	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
 	if (!success)
 	{
-		glGetShaderInfoLog(fragmentshader, 512, NULL, infoLog);
+		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
 		cout<<"ERROR::fragmentshader::vertext::compile failed\n"<<infoLog<<endl;
 	}
 
 	GLuint program;
 	program=glCreateProgram();
-	glAttachShader(program, verteshader);
-	glAttachShader(program, fragmentshader);
+	glAttachShader(program, vertexShader);
+	glAttachShader(program, fragmentShader);
 	glLinkProgram(program);
 
 	glGetProgramiv(program, GL_LINK_STATUS, &success);
@@ -43,8 +43,8 @@ GLuint RsProgram::createProgram(const GLchar*_vertexShaderSource,const GLchar*_f
 		glGetProgramInfoLog(program, 512, NULL, infoLog);
 		cout<<"ERROR::SHADER_Progarem_GL_LINK_STATUS\n"<<infoLog<<endl;
 	}
-	glDeleteShader(verteshader);
-	glDeleteShader(fragmentshader);
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
 	return program;
 }
 

@@ -1,12 +1,34 @@
 #include "stdafx.h"
 #include "particle_system.h"
+#include "triangle.h"
+#include "heat_map.h"
+GLfloat vertex0[] = {
+	-0.5f, -0.5f, 0,
+	0.5f, -0.5f, 0,
+	0,  0.5f, 0,
+	0,  0.5f, 0,
+	0.5f, -0.5f, 0,
+	1.0f, 0.5f, 0
+};
+
+GLfloat vertex1[] = {
+	-0.5f, -0.5f, -0.5,
+	0.5f, -0.5f,  -0.5,
+	0,  0.5f,  -0.5,
+	0,  0.5f,  -0.5,
+	0.5f, -0.5f,  -0.5,
+	1.0f, 0.5f,  -0.5
+};
+
 
 int main()
 {
 	DrawContext* drawContext = GraphicContext::getContext();
 
-	ParticleSystem* particleSystem = new ParticleSystem(25, 10.0f);
-
+	ParticleSystem* particleSystem = new ParticleSystem(50, 10.0f);
+	Triangle*tri = new Triangle(vertex0, 6);
+	HeatMap*heatMap = new HeatMap(18);
+	tri->setIsDrawOutline(true);
 	int width, height;
 		
 	glfwGetFramebufferSize(drawContext, &width, &height);
@@ -14,25 +36,16 @@ int main()
 	glEnable(GL_SCISSOR_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	while (!glfwWindowShouldClose(drawContext))
 	{
 		vec2i size;
 
 		glfwGetWindowSize(drawContext, &size.x, &size.y);
-		glScissor(0, 0, size.x, size.y);
-		glViewport(0, 0, size.x, size.y);
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
 
-
-	/*	glScissor(100, 100, 400, 400);
-		glViewport(100, 100, 400, 400);
-		glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-*/
-		particleSystem->simulation(0.008f);
 		particleSystem->render(size.x, size.y);
-
+		//tri->render();
+		heatMap->render(size.x, size.y);
 		glfwPollEvents();
 		glfwSwapBuffers(drawContext);
 	}
@@ -40,5 +53,6 @@ int main()
 	GraphicContext::freeGraphicContext();
 
 	delete particleSystem;
+	delete tri;
 	return 0;
 }

@@ -21,7 +21,7 @@ ParticleSystem::ParticleSystem(int count, float gravity) : m_count(count), m_gra
 
 	glGenBuffers(1, &m_vboRect);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vboRect);
-	glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(vec3f), points, GL_STREAM_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STREAM_DRAW);
 
 	m_posLoc= m_programe->getAttributeLoc("inPos");
 	glVertexAttribPointer(m_posLoc, 3, GL_FLOAT, GL_FALSE, sizeof(vec3f), (GLvoid*)0);
@@ -64,7 +64,6 @@ void ParticleSystem::init()
 	{
 		Particle temp = { 
 			vec3f(((rand() % 50) - 26.0f) / 25.0f,((rand() % 50) - 26.0f) / 25.0f, ((rand() % 50) - 26.0f) / 25.0f),
-		//	vec3f(0,0,0),
 			Color(rand() % 256 / 256.0f, rand() % 256 / 256.0f, rand() % 256 / 256.0f, rand() % 10 /10.0f),
 			0.0f,
 			rand() % 30,
@@ -74,19 +73,6 @@ void ParticleSystem::init()
 		};
 		m_particles.push_back(temp);
 	}
-
-	m_centerPos = new Point[m_count * m_count];
-	for (int i = 0; i < m_count; i++)
-	{
-		for (int j = 0; j < m_count;j++)
-		{
-			Point point;
-			point.center= vec3f(i * 0.09f, j * 0.09f, 0.0f);
-			point.color = Color(rand() % 256 / 256.0f, rand() % 256 / 256.0f, rand() % 256 / 256.0f, rand() % 10 / 10.0f);
-			point.radius = rand() % 30;
-			m_centerPos[i * m_count + j] = point;
-		}
-	}
 }
 
 ParticleSystem::~ParticleSystem()
@@ -94,7 +80,6 @@ ParticleSystem::~ParticleSystem()
 	glDeleteBuffers(1, &m_vboRect);
 	glDeleteBuffers(1, &m_vboCenter);
 	glDeleteVertexArrays(1, &m_vao);
-	delete[] m_centerPos;
 }
 
 void ParticleSystem::simulation(float dt)
@@ -112,8 +97,8 @@ void ParticleSystem::calculateAge(float dt)
 
 		if (itr->age > itr->life)
 		{
-			itr->pos = vec3f(((rand() % 50) - 26.0f) / 25.0f, ((rand() % 50) - 26.0f) / 25.0f, ((rand() % 50) - 26.0f) / 25.0f);
-			//itr->pos = vec3f(0, 0, 0);
+			itr->pos = vec3f(((rand() % 50) - 26.0f) / 25.0f, ((rand() % 50)) / 25.0f, ((rand() % 50) - 26.0f) / 25.0f);
+		//	itr->pos = vec3f(0, 0, 0);
 			itr->age = 0;
 			itr->speed = vec3f((rand() % 30 - 15.0f), (rand() % 30 - 11.0f), (rand() % 30 - 15.0f));
 		}
@@ -139,6 +124,14 @@ void ParticleSystem::particleMotion(float dt)
 
 void ParticleSystem::render(int width, int height)
 {
+	simulation(0.008f);
+
+	glScissor(0, 0, width, height);
+
+	glViewport(0, 0, width, height);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+
 	m_programe->usePrograme();
 
 	glBindVertexArray(m_vao);

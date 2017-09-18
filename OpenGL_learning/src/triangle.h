@@ -2,13 +2,15 @@
 #include "stdafx.h"
 #include "rs_programe.h"
 
+
 class Triangle 
 {
 public:
 	Triangle(GLfloat* vertex, size_t num);
 	~Triangle();
 
-	virtual void draw();
+	virtual void render();
+
 	void setIsDrawOutline(bool isDrawOutline) {
 		m_isDrawOutline = isDrawOutline;
 	}
